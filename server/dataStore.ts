@@ -75,8 +75,10 @@ export interface FullDashboardData {
   settings: SettingsData;
 }
 
-const DATA_DIR = path.resolve(process.cwd(), 'data');
-const DATA_FILE = path.resolve(DATA_DIR, 'data.txt');
+const DATA_FILE = process.env.DATA_FILE_PATH
+  ? path.resolve(process.cwd(), process.env.DATA_FILE_PATH)
+  : path.resolve(process.cwd(), 'data/data.txt');
+const DATA_DIR = path.dirname(DATA_FILE);
 
 // Simple async queue mutex to serialize writes and prevent file corruption
 let writeQueue = Promise.resolve();
