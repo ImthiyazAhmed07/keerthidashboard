@@ -523,6 +523,20 @@ apiRouter.get('/backup/raw', async (req: Request, res: Response) => {
   }
 });
 
+apiRouter.post('/backup/sync-json', async (req: Request, res: Response) => {
+  try {
+    const { fullData } = req.body;
+    if (!fullData || typeof fullData !== 'object') {
+      res.status(400).json({ error: 'Valid dashboard data required.' });
+      return;
+    }
+    await writeData(fullData);
+    res.json({ success: true, message: 'Data synchronized successfully.', data: fullData });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to sync data.' });
+  }
+});
+
 apiRouter.post('/backup/restore', async (req: Request, res: Response) => {
   try {
     const { rawContent } = req.body;

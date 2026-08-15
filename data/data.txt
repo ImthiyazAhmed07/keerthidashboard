@@ -1,19 +1,18 @@
 # ==========================================
 # 🌻 KEERTHIKA DASHBOARD - DATA STORAGE 🌻
 # Human-readable plain text file storage
-# Last updated: 2026-08-15T19:23:02.424Z
 # ==========================================
 
 [USER]
 name=Keerthika
 
 [FAVOURITE_SONG]
-song=Golden Hour
-artist=JVKE
-image=https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=500&auto=format&fit=crop&q=80
-url=https://open.spotify.com
-note=Sun-drenched chords and warm calming melodies 🌻
-updatedAt=2026-08-15T18:52:49.935Z
+song=
+artist=
+image=
+url=
+note=
+updatedAt=
 
 [SETTINGS]
 theme=light
@@ -21,27 +20,13 @@ accent=sunflower
 showDailyThought=true
 showFocusTimer=true
 showFavouriteSong=true
-showScratchpad=true
+showScratchpad=false
 greetingStyle=warm
 
 [NOTES]
-msuqt24marm3t|Study Plan for Finals|Study|2026-08-15T19:02:06.598Z|2026-08-15T19:02:06.598Z|true|honey|Review chapters 1 through 5, make flashcards, take practice quiz.
-1|Welcome to your Dashboard! 🌻|Personal|2026-08-15T18:52:49.935Z|2026-08-15T18:52:49.935Z|true|sunflower|This is your private, cozy space to organize notes, keep track of tasks, store helpful links, and scribble fleeting ideas. Hope you have a wonderful and productive day!
-2|Daily Sunflower Reminder|Study|2026-08-15T18:52:49.935Z|2026-08-15T18:52:49.935Z|false|honey|Take small breaks, stay hydrated, and remember that progress happens one small step at a time! 🌻
 
 [TASKS]
-msuqt3q0p8e7s|Complete Math practice sheet|pending|high|2026-08-18|Study||2026-08-15T19:02:08.664Z
-1|Explore the Keerthika Dashboard 🌻|pending|high|2026-08-15|Personal||2026-08-15T18:52:49.935Z
-2|Try out the Scribble Board ✍️|pending|medium|2026-08-15|Personal||2026-08-15T18:52:49.935Z
-3|Add your current favourite song 🎵|pending|low|2026-08-16|Personal||2026-08-15T18:52:49.935Z
-4|Organize study & work bookmarks 🔗|pending|medium|2026-08-17|Study||2026-08-15T18:52:49.935Z
 
 [DATES]
-1|Semester Project Review|2026-08-20|Study|Prepare presentation slides and recap notes.|true|2026-08-15T18:52:49.935Z
-2|Weekend Relaxation Day 🌻|2026-08-22|Personal|Enjoy a warm cup of coffee and doodle on the scribble board.|false|2026-08-15T18:52:49.935Z
 
 [LINKS]
-1|Google Search|https://www.google.com|Search|🔍|2026-08-15T18:52:49.935Z
-2|YouTube|https://www.youtube.com|Media|▶️|2026-08-15T18:52:49.935Z
-3|Google Drive|https://drive.google.com|Work|📁|2026-08-15T18:52:49.935Z
-4|Spotify Web|https://open.spotify.com|Music|🎵|2026-08-15T18:52:49.935Z

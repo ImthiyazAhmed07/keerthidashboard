@@ -13,6 +13,8 @@ import { useAuth } from './AuthContext';
 import { useToast } from './ToastContext';
 import { sound } from '../utils/audio';
 
+const STORAGE_CACHE_KEY = 'keerthika_dashboard_persistent_data_v2';
+
 interface DataContextType {
   data: FullDashboardData | null;
   isLoading: boolean;
@@ -53,6 +55,14 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const { isAuthenticated } = useAuth();
   const { showToast } = useToast();
 
+  const persistToLocalCache = useCallback((updated: FullDashboardData) => {
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem(STORAGE_CACHE_KEY, JSON.stringify(updated));
+      } catch {}
+    }
+  }, []);
+
   const fetchDashboard = useCallback(async () => {
     if (!isAuthenticated) {
       setData(null);
@@ -64,14 +74,47 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.getDashboard();
       if (res.success && res.data) {
-        setData(res.data);
+        const serverData: FullDashboardData = res.data;
+        const isServerCleanEmpty =
+          serverData.notes.length === 0 &&
+          serverData.tasks.length === 0 &&
+          serverData.dates.length === 0 &&
+          serverData.links.length === 0 &&
+          !serverData.favouriteSong?.song;
+
+        // Check if browser has previously saved notes/tasks before a fresh redeploy
+        if (typeof window !== 'undefined' && isServerCleanEmpty) {
+          const cached = localStorage.getItem(STORAGE_CACHE_KEY);
+          if (cached) {
+            try {
+              const parsedCache: FullDashboardData = JSON.parse(cached);
+              const hasCachedContent =
+                parsedCache.notes.length > 0 ||
+                parsedCache.tasks.length > 0 ||
+                parsedCache.dates.length > 0 ||
+                parsedCache.links.length > 0 ||
+                !!parsedCache.favouriteSong?.song;
+
+              if (hasCachedContent) {
+                // Auto-restore previous user data to server seamlessly!
+                await api.syncJson(parsedCache);
+                setData(parsedCache);
+                setIsLoading(false);
+                return;
+              }
+            } catch {}
+          }
+        }
+
+        setData(serverData);
+        persistToLocalCache(serverData);
       }
     } catch (err: any) {
       setError(err.message || 'Failed to load dashboard data.');
     } finally {
       setIsLoading(false);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, persistToLocalCache]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -84,7 +127,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.createNote(payload);
       if (res.success && res.note) {
-        setData((prev) => (prev ? { ...prev, notes: [res.note, ...prev.notes] } : null));
+        setData((prev) => {
+          if (!prev) return null;
+          const next = { ...prev, notes: [res.note, ...prev.notes] };
+          persistToLocalCache(next);
+          return next;
+        });
         showToast('Note created! 📝', 'success');
       }
     } catch (err: any) {
@@ -97,14 +145,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.updateNote(id, updates);
       if (res.success && res.note) {
-        setData((prev) =>
-          prev
-            ? {
-                ...prev,
-                notes: prev.notes.map((n) => (n.id === id ? res.note : n)),
-              }
-            : null
-        );
+        setData((prev) => {
+          if (!prev) return null;
+          const next = {
+            ...prev,
+            notes: prev.notes.map((n) => (n.id === id ? res.note : n)),
+          };
+          persistToLocalCache(next);
+          return next;
+        });
         showToast('Note updated! 🌻', 'success');
       }
     } catch (err: any) {
@@ -117,14 +166,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.togglePinNote(id);
       if (res.success && res.note) {
-        setData((prev) =>
-          prev
-            ? {
-                ...prev,
-                notes: prev.notes.map((n) => (n.id === id ? res.note : n)),
-              }
-            : null
-        );
+        setData((prev) => {
+          if (!prev) return null;
+          const next = {
+            ...prev,
+            notes: prev.notes.map((n) => (n.id === id ? res.note : n)),
+          };
+          persistToLocalCache(next);
+          return next;
+        });
         showToast(res.note.pinned ? 'Note pinned 📌' : 'Note unpinned', 'info');
       }
     } catch (err: any) {
@@ -135,14 +185,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const deleteNote = async (id: string) => {
     try {
       await api.deleteNote(id);
-      setData((prev) =>
-        prev
-          ? {
-              ...prev,
-              notes: prev.notes.filter((n) => n.id !== id),
-            }
-          : null
-      );
+      setData((prev) => {
+        if (!prev) return null;
+        const next = {
+          ...prev,
+          notes: prev.notes.filter((n) => n.id !== id),
+        };
+        persistToLocalCache(next);
+        return next;
+      });
       showToast('Note deleted 🗑️', 'info');
     } catch (err: any) {
       showToast(err.message || 'Failed to delete note', 'error');
@@ -155,7 +206,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.createTask(payload);
       if (res.success && res.task) {
-        setData((prev) => (prev ? { ...prev, tasks: [res.task, ...prev.tasks] } : null));
+        setData((prev) => {
+          if (!prev) return null;
+          const next = { ...prev, tasks: [res.task, ...prev.tasks] };
+          persistToLocalCache(next);
+          return next;
+        });
         showToast('Task added! ✅', 'success');
       }
     } catch (err: any) {
@@ -168,14 +224,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.updateTask(id, updates);
       if (res.success && res.task) {
-        setData((prev) =>
-          prev
-            ? {
-                ...prev,
-                tasks: prev.tasks.map((t) => (t.id === id ? res.task : t)),
-              }
-            : null
-        );
+        setData((prev) => {
+          if (!prev) return null;
+          const next = {
+            ...prev,
+            tasks: prev.tasks.map((t) => (t.id === id ? res.task : t)),
+          };
+          persistToLocalCache(next);
+          return next;
+        });
         showToast('Task updated! 🌻', 'success');
       }
     } catch (err: any) {
@@ -186,7 +243,6 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const toggleTask = async (id: string) => {
     try {
-      // Optimistic sound & state
       const task = data?.tasks.find((t) => t.id === id);
       const willBeCompleted = task?.status !== 'completed';
 
@@ -196,14 +252,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       const res = await api.toggleTask(id);
       if (res.success && res.task) {
-        setData((prev) =>
-          prev
-            ? {
-                ...prev,
-                tasks: prev.tasks.map((t) => (t.id === id ? res.task : t)),
-              }
-            : null
-        );
+        setData((prev) => {
+          if (!prev) return null;
+          const next = {
+            ...prev,
+            tasks: prev.tasks.map((t) => (t.id === id ? res.task : t)),
+          };
+          persistToLocalCache(next);
+          return next;
+        });
       }
     } catch (err: any) {
       showToast(err.message || 'Failed to update task status', 'error');
@@ -213,14 +270,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const deleteTask = async (id: string) => {
     try {
       await api.deleteTask(id);
-      setData((prev) =>
-        prev
-          ? {
-              ...prev,
-              tasks: prev.tasks.filter((t) => t.id !== id),
-            }
-          : null
-      );
+      setData((prev) => {
+        if (!prev) return null;
+        const next = {
+          ...prev,
+          tasks: prev.tasks.filter((t) => t.id !== id),
+        };
+        persistToLocalCache(next);
+        return next;
+      });
       showToast('Task removed', 'info');
     } catch (err: any) {
       showToast(err.message || 'Failed to delete task', 'error');
@@ -233,16 +291,17 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.createDate(payload);
       if (res.success && res.date) {
-        setData((prev) =>
-          prev
-            ? {
-                ...prev,
-                dates: [...prev.dates, res.date].sort(
-                  (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-                ),
-              }
-            : null
-        );
+        setData((prev) => {
+          if (!prev) return null;
+          const next = {
+            ...prev,
+            dates: [...prev.dates, res.date].sort(
+              (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+            ),
+          };
+          persistToLocalCache(next);
+          return next;
+        });
         showToast('Important date added! 📅', 'success');
       }
     } catch (err: any) {
@@ -255,16 +314,17 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.updateDate(id, updates);
       if (res.success && res.date) {
-        setData((prev) =>
-          prev
-            ? {
-                ...prev,
-                dates: prev.dates
-                  .map((d) => (d.id === id ? res.date : d))
-                  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
-              }
-            : null
-        );
+        setData((prev) => {
+          if (!prev) return null;
+          const next = {
+            ...prev,
+            dates: prev.dates
+              .map((d) => (d.id === id ? res.date : d))
+              .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
+          };
+          persistToLocalCache(next);
+          return next;
+        });
         showToast('Date updated! 🌻', 'success');
       }
     } catch (err: any) {
@@ -276,14 +336,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const deleteDate = async (id: string) => {
     try {
       await api.deleteDate(id);
-      setData((prev) =>
-        prev
-          ? {
-              ...prev,
-              dates: prev.dates.filter((d) => d.id !== id),
-            }
-          : null
-      );
+      setData((prev) => {
+        if (!prev) return null;
+        const next = {
+          ...prev,
+          dates: prev.dates.filter((d) => d.id !== id),
+        };
+        persistToLocalCache(next);
+        return next;
+      });
       showToast('Event removed', 'info');
     } catch (err: any) {
       showToast(err.message || 'Failed to delete event', 'error');
@@ -296,7 +357,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.createLink(payload);
       if (res.success && res.link) {
-        setData((prev) => (prev ? { ...prev, links: [...prev.links, res.link] } : null));
+        setData((prev) => {
+          if (!prev) return null;
+          const next = { ...prev, links: [...prev.links, res.link] };
+          persistToLocalCache(next);
+          return next;
+        });
         showToast('Link added! 🔗', 'success');
       }
     } catch (err: any) {
@@ -309,14 +375,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.updateLink(id, updates);
       if (res.success && res.link) {
-        setData((prev) =>
-          prev
-            ? {
-                ...prev,
-                links: prev.links.map((l) => (l.id === id ? res.link : l)),
-              }
-            : null
-        );
+        setData((prev) => {
+          if (!prev) return null;
+          const next = {
+            ...prev,
+            links: prev.links.map((l) => (l.id === id ? res.link : l)),
+          };
+          persistToLocalCache(next);
+          return next;
+        });
         showToast('Link updated! 🌻', 'success');
       }
     } catch (err: any) {
@@ -328,14 +395,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const deleteLink = async (id: string) => {
     try {
       await api.deleteLink(id);
-      setData((prev) =>
-        prev
-          ? {
-              ...prev,
-              links: prev.links.filter((l) => l.id !== id),
-            }
-          : null
-      );
+      setData((prev) => {
+        if (!prev) return null;
+        const next = {
+          ...prev,
+          links: prev.links.filter((l) => l.id !== id),
+        };
+        persistToLocalCache(next);
+        return next;
+      });
       showToast('Link removed', 'info');
     } catch (err: any) {
       showToast(err.message || 'Failed to delete link', 'error');
@@ -348,7 +416,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.updateSong(payload);
       if (res.success && res.favouriteSong) {
-        setData((prev) => (prev ? { ...prev, favouriteSong: res.favouriteSong } : null));
+        setData((prev) => {
+          if (!prev) return null;
+          const next = { ...prev, favouriteSong: res.favouriteSong };
+          persistToLocalCache(next);
+          return next;
+        });
         showToast('Favourite song updated! 🎵', 'success');
       }
     } catch (err: any) {
@@ -362,7 +435,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.updateSettings(settings);
       if (res.success && res.settings) {
-        setData((prev) => (prev ? { ...prev, settings: res.settings } : null));
+        setData((prev) => {
+          if (!prev) return null;
+          const next = { ...prev, settings: res.settings };
+          persistToLocalCache(next);
+          return next;
+        });
         showToast('Preferences saved! 🌻', 'success');
       }
     } catch (err: any) {
@@ -375,7 +453,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.updateProfile(name);
       if (res.success && res.user) {
-        setData((prev) => (prev ? { ...prev, user: res.user } : null));
+        setData((prev) => {
+          if (!prev) return null;
+          const next = { ...prev, user: res.user };
+          persistToLocalCache(next);
+          return next;
+        });
         showToast('Name updated! 🌻', 'success');
       }
     } catch (err: any) {

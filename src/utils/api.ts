@@ -189,4 +189,10 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ rawContent }),
     }),
+
+  syncJson: (fullData: any) =>
+    request('/api/backup/sync-json', {
+      method: 'POST',
+      body: JSON.stringify({ fullData }),
+    }),
 };
