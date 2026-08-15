@@ -3,6 +3,7 @@ import {
   Home,
   FileText,
   CheckSquare,
+  Clock,
   Calendar,
   Link2,
   Music,
@@ -25,6 +26,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ currentPage, onSelectPage 
     { id: 'home', label: 'Home', icon: Home },
     { id: 'notes', label: 'Notes', icon: FileText },
     { id: 'tasks', label: 'Tasks', icon: CheckSquare, badge: pendingTasksCount > 0 ? pendingTasksCount : undefined },
+    { id: 'timer', label: 'Timer', icon: Clock },
     { id: 'dates', label: 'Dates', icon: Calendar },
     { id: 'links', label: 'Links', icon: Link2 },
     { id: 'song', label: 'Song', icon: Music },
@@ -41,7 +43,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ currentPage, onSelectPage 
           <button
             key={item.id}
             onClick={() => onSelectPage(item.id)}
-            className={`flex flex-col items-center justify-center py-1.5 px-2.5 rounded-2xl min-w-[54px] relative transition-all active:scale-95 ${
+            className={`flex flex-col items-center justify-center py-1.5 px-2 rounded-2xl min-w-[50px] relative transition-all active:scale-95 shrink-0 ${
               isActive
                 ? 'text-sunflower-600 dark:text-sunflower-400 font-bold'
                 : 'text-warm-500 dark:text-warm-400 hover:text-warm-800 dark:hover:text-warm-200'

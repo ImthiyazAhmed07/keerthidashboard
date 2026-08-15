@@ -67,7 +67,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         {/* Column 3: Daily Thought, Focus Timer, Favourite Song, Scratchpad */}
         <div className="flex flex-col gap-6">
           {settings?.showDailyThought !== false && <DailyThoughtWidget />}
-          {settings?.showFocusTimer !== false && <FocusTimerWidget />}
+          {settings?.showFocusTimer !== false && <FocusTimerWidget onNavigate={onNavigate} />}
           {settings?.showFavouriteSong !== false && (
             <FavouriteSongWidget onOpenEditModal={() => setIsSongModalOpen(true)} />
           )}

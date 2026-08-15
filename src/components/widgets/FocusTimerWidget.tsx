@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, RotateCcw, FastForward, Sliders, Clock } from 'lucide-react';
+import { Play, Pause, RotateCcw, FastForward, Sliders, Clock, Maximize2 } from 'lucide-react';
 import { sound } from '../../utils/audio';
 import { useToast } from '../../context/ToastContext';
 
@@ -11,7 +11,13 @@ const PRESET_TIMES: Record<TimerMode, number> = {
   longBreak: 15 * 60,
 };
 
-export const FocusTimerWidget: React.FC = () => {
+import { PageId } from '../../types';
+
+interface FocusTimerWidgetProps {
+  onNavigate?: (page: PageId) => void;
+}
+
+export const FocusTimerWidget: React.FC<FocusTimerWidgetProps> = ({ onNavigate }) => {
   const [mode, setMode] = useState<TimerMode>('focus');
   const [timeLeft, setTimeLeft] = useState(PRESET_TIMES.focus);
   const [isActive, setIsActive] = useState(false);
@@ -87,14 +93,26 @@ export const FocusTimerWidget: React.FC = () => {
           <h3 className="font-bold text-sm text-warm-900 dark:text-warm-100">Focus Timer</h3>
         </div>
 
-        <button
-          onClick={() => setShowCustomModal(!showCustomModal)}
-          className="p-1.5 text-warm-400 hover:text-warm-700 dark:hover:text-warm-200 hover:bg-warm-100 dark:hover:bg-darkbg-cardHover rounded-xl transition-colors"
-          title="Custom time"
-          aria-label="Set custom time"
-        >
-          <Sliders className="w-3.5 h-3.5" />
-        </button>
+        <div className="flex items-center gap-1">
+          {onNavigate && (
+            <button
+              onClick={() => onNavigate('timer')}
+              className="p-1.5 text-warm-400 hover:text-sunflower-600 dark:hover:text-sunflower-400 hover:bg-warm-100 dark:hover:bg-darkbg-cardHover rounded-xl transition-colors"
+              title="Open Full Focus Sanctuary"
+              aria-label="Open Full Focus Sanctuary"
+            >
+              <Maximize2 className="w-3.5 h-3.5" />
+            </button>
+          )}
+          <button
+            onClick={() => setShowCustomModal(!showCustomModal)}
+            className="p-1.5 text-warm-400 hover:text-warm-700 dark:hover:text-warm-200 hover:bg-warm-100 dark:hover:bg-darkbg-cardHover rounded-xl transition-colors"
+            title="Custom time"
+            aria-label="Set custom time"
+          >
+            <Sliders className="w-3.5 h-3.5" />
+          </button>
+        </div>
       </div>
 
       {/* Mode Switcher Tabs */}

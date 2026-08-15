@@ -25,6 +25,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onSelectPage }) => 
     home: { title: 'Home Dashboard', subtitle: 'Overview of your personal space' },
     notes: { title: 'Personal Notes', subtitle: 'Thoughts, reminders, and study notes' },
     tasks: { title: 'Task Manager', subtitle: 'Keep track of what needs to get done' },
+    timer: { title: 'Focus Sanctuary ⏱️', subtitle: 'Calm Pomodoro timer & ambient soundspace for deep work' },
     dates: { title: 'Important Dates', subtitle: 'Upcoming events, deadlines, and milestones' },
     links: { title: 'Quick Links', subtitle: 'Your favorite and frequently used bookmarks' },
     song: { title: 'My Current Favourite Song', subtitle: 'The soundtrack to your day 🎧' },

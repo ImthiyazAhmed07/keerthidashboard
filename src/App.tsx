@@ -9,6 +9,7 @@ import { LoginPage } from './pages/LoginPage';
 import { HomePage } from './pages/HomePage';
 import { NotesPage } from './pages/NotesPage';
 import { TasksPage } from './pages/TasksPage';
+import { FocusTimerPage } from './pages/FocusTimerPage';
 import { DatesPage } from './pages/DatesPage';
 import { LinksPage } from './pages/LinksPage';
 import { SongPage } from './pages/SongPage';
@@ -45,6 +46,8 @@ const DashboardContent: React.FC = () => {
         return <NotesPage />;
       case 'tasks':
         return <TasksPage />;
+      case 'timer':
+        return <FocusTimerPage />;
       case 'dates':
         return <DatesPage />;
       case 'links':
