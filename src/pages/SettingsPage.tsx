@@ -257,13 +257,6 @@ export const SettingsPage: React.FC = () => {
               icon: Music,
               enabled: data?.settings?.showFavouriteSong !== false,
             },
-            {
-              key: 'showScratchpad',
-              label: 'Temporary Scratchpad',
-              desc: 'In-memory scratchpad for quick typing and draft notes',
-              icon: Pen,
-              enabled: data?.settings?.showScratchpad !== false,
-            },
           ].map((widget) => {
             const Icon = widget.icon;
             return (

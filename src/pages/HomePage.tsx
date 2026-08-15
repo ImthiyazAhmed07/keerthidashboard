@@ -7,7 +7,6 @@ import { QuickNotesWidget } from '../components/widgets/QuickNotesWidget';
 import { FocusTimerWidget } from '../components/widgets/FocusTimerWidget';
 import { DailyThoughtWidget } from '../components/widgets/DailyThoughtWidget';
 import { FavouriteSongWidget } from '../components/widgets/FavouriteSongWidget';
-import { ScratchpadWidget } from '../components/widgets/ScratchpadWidget';
 import { QuickLinksWidget } from '../components/widgets/QuickLinksWidget';
 import { UpcomingDatesWidget } from '../components/widgets/UpcomingDatesWidget';
 
@@ -64,14 +63,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           />
         </div>
 
-        {/* Column 3: Daily Thought, Focus Timer, Favourite Song, Scratchpad */}
+        {/* Column 3: Daily Thought, Focus Timer, Favourite Song */}
         <div className="flex flex-col gap-6">
           {settings?.showDailyThought !== false && <DailyThoughtWidget />}
           {settings?.showFocusTimer !== false && <FocusTimerWidget onNavigate={onNavigate} />}
           {settings?.showFavouriteSong !== false && (
             <FavouriteSongWidget onOpenEditModal={() => setIsSongModalOpen(true)} />
           )}
-          {settings?.showScratchpad !== false && <ScratchpadWidget />}
         </div>
       </div>
 
