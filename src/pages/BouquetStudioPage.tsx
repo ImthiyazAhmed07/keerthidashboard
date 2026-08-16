@@ -419,7 +419,7 @@ export const BouquetStudioPage: React.FC = () => {
     <div
       className={`flex flex-col gap-6 max-w-6xl mx-auto transition-all ${
         isFullscreen
-          ? 'fixed inset-0 z-50 bg-warm-50 dark:bg-darkbg-surface p-4 sm:p-8 overflow-y-auto max-w-none'
+          ? 'fixed inset-0 z-50 bg-warm-50 dark:bg-darkbg-surface p-4 sm:p-8 overflow-y-auto overscroll-contain h-full w-full max-w-none'
           : ''
       }`}
     >
@@ -497,7 +497,8 @@ export const BouquetStudioPage: React.FC = () => {
             onClick={handleCanvasBackgroundClick}
             onPointerMove={handlePointerMoveCanvas}
             onPointerUp={handlePointerUpCanvas}
-            className="relative w-full h-[560px] sm:h-[640px] rounded-[36px] bg-gradient-to-b from-amber-50/60 via-warm-50 to-warm-100 dark:from-darkbg-surface dark:via-darkbg-card dark:to-zinc-950 border border-warm-200/90 dark:border-darkbg-border shadow-warm-lg overflow-hidden select-none touch-none cursor-default"
+            onPointerCancel={handlePointerUpCanvas}
+            className="relative w-full h-[460px] sm:h-[540px] lg:h-[600px] rounded-[36px] bg-gradient-to-b from-amber-50/60 via-warm-50 to-warm-100 dark:from-darkbg-surface dark:via-darkbg-card dark:to-zinc-950 border border-warm-200/90 dark:border-darkbg-border shadow-warm-lg overflow-hidden select-none touch-pan-y cursor-default"
           >
             {/* Ambient Background Glow */}
             <div data-canvas-bg="true" className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-amber-300/20 dark:bg-amber-500/10 blur-3xl pointer-events-none" />
