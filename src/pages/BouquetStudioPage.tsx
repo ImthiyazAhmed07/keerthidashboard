@@ -53,44 +53,83 @@ const PRESET_BOUQUETS: { name: string; wrapper: string; tag: string; stems: Plac
     wrapper: 'kraft',
     tag: 'Brighten your day! 🌻',
     stems: [
-      { id: '1', typeId: 'eucalyptus', color: '#64748b', x: 26, y: 26, rotation: -28, scale: 1.1 },
-      { id: '2', typeId: 'eucalyptus', color: '#64748b', x: 74, y: 26, rotation: 28, scale: 1.1 },
-      { id: '3', typeId: 'fern', color: '#16a34a', x: 50, y: 18, rotation: 0, scale: 1.15 },
-      { id: '4', typeId: 'babys-breath', color: '#ffffff', x: 34, y: 32, rotation: -15, scale: 0.95 },
-      { id: '5', typeId: 'babys-breath', color: '#ffffff', x: 66, y: 32, rotation: 15, scale: 0.95 },
-      { id: '6', typeId: 'sunflower-classic', color: '#f59e0b', x: 50, y: 36, rotation: 0, scale: 1.3 },
-      { id: '7', typeId: 'sunflower-teddy', color: '#f59e0b', x: 33, y: 44, rotation: -18, scale: 1.1 },
-      { id: '8', typeId: 'sunflower-sunburst', color: '#dc2626', x: 67, y: 44, rotation: 18, scale: 1.1 },
-      { id: '9', typeId: 'daisy', color: '#ffffff', x: 50, y: 52, rotation: 5, scale: 0.9 },
-      { id: '10', typeId: 'butterfly-gold', color: '#f59e0b', x: 78, y: 16, rotation: 15, scale: 0.8, inFront: true },
+      // Back Foliage
+      { id: '1', typeId: 'fern', color: '#16a34a', x: 50, y: 30, rotation: 0, scale: 1.1 },
+      { id: '2', typeId: 'eucalyptus', color: '#64748b', x: 38, y: 32, rotation: -20, scale: 1.05 },
+      { id: '3', typeId: 'eucalyptus', color: '#64748b', x: 62, y: 32, rotation: 20, scale: 1.05 },
+      // Mid Fillers
+      { id: '4', typeId: 'babys-breath', color: '#ffffff', x: 42, y: 35, rotation: -10, scale: 0.9 },
+      { id: '5', typeId: 'babys-breath', color: '#ffffff', x: 58, y: 35, rotation: 10, scale: 0.9 },
+      // Hero Sunflowers Clustered
+      { id: '6', typeId: 'sunflower-classic', color: '#f59e0b', x: 50, y: 38, rotation: 0, scale: 1.25 },
+      { id: '7', typeId: 'sunflower-teddy', color: '#f59e0b', x: 38, y: 43, rotation: -12, scale: 1.05 },
+      { id: '8', typeId: 'sunflower-sunburst', color: '#dc2626', x: 62, y: 43, rotation: 12, scale: 1.05 },
+      // Front Nestled
+      { id: '9', typeId: 'daisy', color: '#ffffff', x: 44, y: 47, rotation: -6, scale: 0.85 },
+      { id: '10', typeId: 'sunflower-mini', color: '#f59e0b', x: 55, y: 47, rotation: 8, scale: 0.85 },
+      { id: '11', typeId: 'butterfly-gold', color: '#f59e0b', x: 66, y: 25, rotation: 15, scale: 0.75, inFront: true },
     ],
   },
   {
-    name: '🌹 Garden Romance',
+    name: '🌹 Velvet Rose Symphony',
     wrapper: 'linen-white',
     tag: 'Sending warm smiles ✨',
     stems: [
-      { id: '1', typeId: 'ruscus', color: '#22c55e', x: 28, y: 24, rotation: -30, scale: 1.05 },
-      { id: '2', typeId: 'ruscus', color: '#22c55e', x: 72, y: 24, rotation: 30, scale: 1.05 },
-      { id: '3', typeId: 'rose', color: '#f472b6', x: 50, y: 30, rotation: 0, scale: 1.25 },
-      { id: '4', typeId: 'rose', color: '#e11d48', x: 34, y: 38, rotation: -15, scale: 1.1 },
-      { id: '5', typeId: 'rose', color: '#fef08a', x: 66, y: 38, rotation: 15, scale: 1.1 },
-      { id: '6', typeId: 'babys-breath', color: '#ffffff', x: 50, y: 48, rotation: 0, scale: 0.95 },
-      { id: '7', typeId: 'sparkles', color: '#fbbf24', x: 80, y: 18, rotation: 0, scale: 0.85, inFront: true },
+      { id: '1', typeId: 'ruscus', color: '#22c55e', x: 38, y: 30, rotation: -22, scale: 1.05 },
+      { id: '2', typeId: 'ruscus', color: '#22c55e', x: 62, y: 30, rotation: 22, scale: 1.05 },
+      { id: '3', typeId: 'babys-breath', color: '#ffffff', x: 50, y: 33, rotation: 0, scale: 0.95 },
+      { id: '4', typeId: 'rose', color: '#e11d48', x: 50, y: 38, rotation: 0, scale: 1.2 },
+      { id: '5', typeId: 'rose', color: '#f472b6', x: 40, y: 42, rotation: -12, scale: 1.05 },
+      { id: '6', typeId: 'rose', color: '#fef08a', x: 60, y: 42, rotation: 12, scale: 1.05 },
+      { id: '7', typeId: 'rose', color: '#fb923c', x: 48, y: 47, rotation: 4, scale: 0.95 },
+      { id: '8', typeId: 'sparkles', color: '#fbbf24', x: 68, y: 26, rotation: 0, scale: 0.85, inFront: true },
+    ],
+  },
+  {
+    name: '🌷 Spring Tulip & Lily',
+    wrapper: 'pastel-lavender',
+    tag: 'Fresh Spring Blooms 🌷',
+    stems: [
+      { id: '1', typeId: 'fern', color: '#16a34a', x: 50, y: 30, rotation: 0, scale: 1.05 },
+      { id: '2', typeId: 'lavender', color: '#8b5cf6', x: 38, y: 32, rotation: -14, scale: 1.0 },
+      { id: '3', typeId: 'lavender', color: '#8b5cf6', x: 62, y: 32, rotation: 14, scale: 1.0 },
+      { id: '4', typeId: 'lily', color: '#ec4899', x: 50, y: 38, rotation: 0, scale: 1.15 },
+      { id: '5', typeId: 'tulip', color: '#f43f5e', x: 40, y: 43, rotation: -12, scale: 1.0 },
+      { id: '6', typeId: 'tulip', color: '#facc15', x: 60, y: 43, rotation: 12, scale: 1.0 },
+      { id: '7', typeId: 'daffodil', color: '#facc15', x: 50, y: 47, rotation: 0, scale: 0.95 },
+      { id: '8', typeId: 'butterfly-gold', color: '#38bdf8', x: 34, y: 24, rotation: -18, scale: 0.75, inFront: true },
+    ],
+  },
+  {
+    name: '🌾 French Gazette Lavender',
+    wrapper: 'vintage-newspaper',
+    tag: 'Peace & Mindfulness 🌿',
+    stems: [
+      { id: '1', typeId: 'olive-branch', color: '#4d7c0f', x: 36, y: 32, rotation: -24, scale: 1.05 },
+      { id: '2', typeId: 'olive-branch', color: '#4d7c0f', x: 64, y: 32, rotation: 24, scale: 1.05 },
+      { id: '3', typeId: 'lavender', color: '#8b5cf6', x: 44, y: 34, rotation: -8, scale: 1.05 },
+      { id: '4', typeId: 'lavender', color: '#8b5cf6', x: 56, y: 34, rotation: 8, scale: 1.05 },
+      { id: '5', typeId: 'daisy', color: '#ffffff', x: 50, y: 40, rotation: 0, scale: 1.1 },
+      { id: '6', typeId: 'daisy', color: '#f472b6', x: 40, y: 44, rotation: -10, scale: 0.95 },
+      { id: '7', typeId: 'carnation', color: '#fb7185', x: 60, y: 44, rotation: 10, scale: 0.95 },
+      { id: '8', typeId: 'sunflower-mini', color: '#f59e0b', x: 50, y: 48, rotation: 4, scale: 0.85 },
+      { id: '9', typeId: 'butterfly-gold', color: '#f59e0b', x: 65, y: 24, rotation: 12, scale: 0.75, inFront: true },
     ],
   },
   {
     name: '🏺 Crystal Spring Vase',
     wrapper: 'glass-vase',
-    tag: 'Fresh Morning Blooms 🌿',
+    tag: 'Morning Dewdrops 🌿',
     stems: [
-      { id: '1', typeId: 'fern', color: '#65a30d', x: 28, y: 26, rotation: -25, scale: 1.05 },
-      { id: '2', typeId: 'fern', color: '#65a30d', x: 72, y: 26, rotation: 25, scale: 1.05 },
-      { id: '3', typeId: 'tulip', color: '#facc15', x: 42, y: 32, rotation: -10, scale: 1.1 },
-      { id: '4', typeId: 'tulip', color: '#f43f5e', x: 58, y: 32, rotation: 10, scale: 1.1 },
-      { id: '5', typeId: 'daffodil', color: '#facc15', x: 50, y: 42, rotation: 0, scale: 1.05 },
-      { id: '6', typeId: 'eucalyptus', color: '#64748b', x: 50, y: 20, rotation: 0, scale: 1.1 },
-      { id: '7', typeId: 'butterfly-gold', color: '#38bdf8', x: 22, y: 18, rotation: -20, scale: 0.75, inFront: true },
+      { id: '1', typeId: 'fern', color: '#65a30d', x: 50, y: 30, rotation: 0, scale: 1.05 },
+      { id: '2', typeId: 'eucalyptus', color: '#64748b', x: 38, y: 32, rotation: -18, scale: 1.0 },
+      { id: '3', typeId: 'eucalyptus', color: '#64748b', x: 62, y: 32, rotation: 18, scale: 1.0 },
+      { id: '4', typeId: 'sunflower-classic', color: '#f59e0b', x: 50, y: 38, rotation: 0, scale: 1.2 },
+      { id: '5', typeId: 'tulip', color: '#facc15', x: 40, y: 42, rotation: -10, scale: 1.0 },
+      { id: '6', typeId: 'daffodil', color: '#facc15', x: 60, y: 42, rotation: 10, scale: 1.0 },
+      { id: '7', typeId: 'daisy', color: '#ffffff', x: 46, y: 46, rotation: -6, scale: 0.9 },
+      { id: '8', typeId: 'babys-breath', color: '#ffffff', x: 54, y: 46, rotation: 6, scale: 0.9 },
+      { id: '9', typeId: 'butterfly-gold', color: '#38bdf8', x: 30, y: 22, rotation: -18, scale: 0.75, inFront: true },
     ],
   },
   {
@@ -98,12 +137,13 @@ const PRESET_BOUQUETS: { name: string; wrapper: string; tag: string; stems: Plac
     wrapper: 'wicker-basket',
     tag: 'Gathered with Love 🧺',
     stems: [
-      { id: '1', typeId: 'olive-branch', color: '#4d7c0f', x: 26, y: 26, rotation: -32, scale: 1.05 },
-      { id: '2', typeId: 'olive-branch', color: '#4d7c0f', x: 74, y: 26, rotation: 32, scale: 1.05 },
-      { id: '3', typeId: 'sunflower-classic', color: '#f59e0b', x: 50, y: 32, rotation: 0, scale: 1.25 },
-      { id: '4', typeId: 'sunflower-mini', color: '#f59e0b', x: 35, y: 40, rotation: -15, scale: 1.1 },
-      { id: '5', typeId: 'chrysanthemum', color: '#ea580c', x: 65, y: 40, rotation: 15, scale: 1.1 },
-      { id: '6', typeId: 'daisy', color: '#ffffff', x: 50, y: 48, rotation: 0, scale: 0.95 },
+      { id: '1', typeId: 'olive-branch', color: '#4d7c0f', x: 38, y: 30, rotation: -26, scale: 1.05 },
+      { id: '2', typeId: 'olive-branch', color: '#4d7c0f', x: 62, y: 30, rotation: 26, scale: 1.05 },
+      { id: '3', typeId: 'sunflower-classic', color: '#f59e0b', x: 50, y: 38, rotation: 0, scale: 1.25 },
+      { id: '4', typeId: 'chrysanthemum', color: '#ea580c', x: 38, y: 43, rotation: -12, scale: 1.05 },
+      { id: '5', typeId: 'sunflower-velvet', color: '#881337', x: 62, y: 43, rotation: 12, scale: 1.05 },
+      { id: '6', typeId: 'carnation', color: '#fb7185', x: 44, y: 47, rotation: -6, scale: 0.9 },
+      { id: '7', typeId: 'sunflower-mini', color: '#f59e0b', x: 56, y: 47, rotation: 6, scale: 0.85 },
     ],
   },
 ];
@@ -169,17 +209,18 @@ export const BouquetStudioPage: React.FC = () => {
     }
   };
 
-  // Add flower to canvas
+  // Add flower to canvas nestled tightly inside the bouquet cone
   const handleAddFlower = (flowerDef: FlowerDefinition) => {
+    const isDeco = flowerDef.category === 'decoration';
     const newStem: PlacedStem = {
       id: 'stem_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
       typeId: flowerDef.id,
       color: activeCategoryColor || flowerDef.defaultColor,
-      x: 45 + (Math.random() * 10 - 5),
-      y: 35 + (Math.random() * 10 - 5),
-      rotation: Math.round(Math.random() * 24 - 12),
+      x: isDeco ? 65 + (Math.random() * 8 - 4) : 48 + (Math.random() * 8 - 4),
+      y: isDeco ? 26 + (Math.random() * 6 - 3) : 40 + (Math.random() * 6 - 3),
+      rotation: Math.round(Math.random() * 20 - 10),
       scale: flowerDef.defaultScale || 1.0,
-      inFront: flowerDef.category === 'decoration',
+      inFront: isDeco,
     };
 
     const nextStems = [...stems, newStem];
@@ -197,7 +238,7 @@ export const BouquetStudioPage: React.FC = () => {
     pushHistory(nextStems);
   };
 
-  // Layering controls: Move behind next flower, bring forward, etc.
+  // Layering controls
   const moveLayerDown = (id?: string) => {
     const targetId = id || selectedStemId;
     if (!targetId) return;
@@ -259,8 +300,8 @@ export const BouquetStudioPage: React.FC = () => {
     const clone: PlacedStem = {
       ...selectedStem,
       id: 'stem_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
-      x: Math.min(85, selectedStem.x + 5),
-      y: Math.min(85, selectedStem.y + 5),
+      x: Math.min(80, selectedStem.x + 3),
+      y: Math.min(80, selectedStem.y + 3),
     };
     const nextStems = [...stems, clone];
     setStems(nextStems);
@@ -286,7 +327,7 @@ export const BouquetStudioPage: React.FC = () => {
     showToast('Bouquet cleared 🌻', 'info');
   };
 
-  // Random Bouquet Generator
+  // Random Bouquet Generator - Tightly clustered inside the wrapper
   const generateRandomBouquet = () => {
     const randomPreset = PRESET_BOUQUETS[Math.floor(Math.random() * PRESET_BOUQUETS.length)];
     const shuffledWrapper = WRAPPER_STYLES[Math.floor(Math.random() * WRAPPER_STYLES.length)];
@@ -299,9 +340,9 @@ export const BouquetStudioPage: React.FC = () => {
       return {
         ...s,
         id: 'stem_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
-        x: s.x + (Math.random() * 6 - 3),
-        y: s.y + (Math.random() * 6 - 3),
-        rotation: s.rotation + (Math.random() * 8 - 4),
+        x: s.x + (Math.random() * 4 - 2),
+        y: s.y + (Math.random() * 4 - 2),
+        rotation: s.rotation + (Math.random() * 6 - 3),
         color: randomColor,
       };
     });
@@ -346,8 +387,8 @@ export const BouquetStudioPage: React.FC = () => {
     const deltaX = ((e.clientX - dragStartRef.current.x) / rect.width) * 100;
     const deltaY = ((e.clientY - dragStartRef.current.y) / rect.height) * 100;
 
-    const nextX = Math.max(5, Math.min(95, dragStartRef.current.stemX + deltaX));
-    const nextY = Math.max(5, Math.min(95, dragStartRef.current.stemY + deltaY));
+    const nextX = Math.max(10, Math.min(90, dragStartRef.current.stemX + deltaX));
+    const nextY = Math.max(15, Math.min(85, dragStartRef.current.stemY + deltaY));
 
     setStems((prev) =>
       prev.map((s) => (s.id === selectedStemId ? { ...s, x: nextX, y: nextY } : s))
@@ -394,7 +435,7 @@ export const BouquetStudioPage: React.FC = () => {
               <Sparkles className="w-5 h-5 text-sunflower-500 animate-pulse" />
             </h1>
             <p className="text-xs text-warm-500 dark:text-warm-400 font-medium">
-              Click any flower to edit • Reorder stems & layers in 3D 💐🌻
+              Click any flower to edit • Lush nestled florist arrangements in 3D 💐🌻
             </p>
           </div>
         </div>
