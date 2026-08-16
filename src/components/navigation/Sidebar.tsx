@@ -8,6 +8,7 @@ import {
   Music,
   PenTool,
   Clock,
+  Flower2,
   Settings,
   LogOut,
 } from 'lucide-react';
@@ -32,6 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onSelectPage }) =
     { id: 'home', label: 'Home', icon: Home },
     { id: 'notes', label: 'Notes', icon: FileText, badge: notesCount > 0 ? notesCount : undefined },
     { id: 'tasks', label: 'Tasks', icon: CheckSquare, badge: pendingTasksCount > 0 ? pendingTasksCount : undefined },
+    { id: 'bouquet', label: 'Bouquet Studio', icon: Flower2 },
     { id: 'timer', label: 'Focus Timer', icon: Clock },
     { id: 'dates', label: 'Important Dates', icon: Calendar },
     { id: 'links', label: 'Links', icon: Link2 },

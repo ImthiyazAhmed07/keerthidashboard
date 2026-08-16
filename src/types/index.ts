@@ -7,6 +7,7 @@ export type PageId =
   | 'song'
   | 'scribble'
   | 'timer'
+  | 'bouquet'
   | 'settings';
 
 export interface UserProfile {
