@@ -690,11 +690,7 @@ export const BouquetStudioPage: React.FC = () => {
               );
             })}
 
-            {/* Canvas Bottom Information */}
-            <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-[11px] text-warm-500 dark:text-warm-400 font-medium pointer-events-none z-40">
-              <span>🌻 Stems tuck deep inside the 3D wrapper cone</span>
-              <span>{stems.length} items placed</span>
-            </div>
+            {/* Canvas Bottom */}
           </div>
 
           {/* Selected Item Floating Inspector Toolbar */}
