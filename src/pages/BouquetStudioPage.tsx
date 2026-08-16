@@ -9,6 +9,8 @@ import {
   Copy,
   ArrowUp,
   ArrowDown,
+  ChevronsUp,
+  ChevronsDown,
   Tag,
   ZoomIn,
   ZoomOut,
@@ -17,6 +19,10 @@ import {
   Check,
   Eye,
   EyeOff,
+  Layers,
+  Sliders,
+  Move,
+  Flower2,
 } from 'lucide-react';
 import {
   FLOWER_DEFINITIONS,
@@ -109,7 +115,7 @@ export const BouquetStudioPage: React.FC = () => {
   const [selectedStemId, setSelectedStemId] = useState<string | null>(null);
   const [wrapperStyleId, setWrapperStyleId] = useState('kraft');
   const [greetingTag, setGreetingTag] = useState('For Keerthika 🌻');
-  const [activeTab, setActiveTab] = useState<'sunflower' | 'flower' | 'greenery' | 'decoration' | 'wrapper'>('sunflower');
+  const [activeTab, setActiveTab] = useState<'sunflower' | 'flower' | 'greenery' | 'decoration' | 'wrapper' | 'layers'>('sunflower');
   const [activeCategoryColor, setActiveCategoryColor] = useState<string | null>(null);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -122,11 +128,13 @@ export const BouquetStudioPage: React.FC = () => {
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
+  const dragMovedRef = useRef(false);
   const dragStartRef = useRef<{ x: number; y: number; stemX: number; stemY: number }>({ x: 0, y: 0, stemX: 0, stemY: 0 });
 
   const currentWrapper: WrapperStyle = WRAPPER_STYLES.find((w) => w.id === wrapperStyleId) || WRAPPER_STYLES[0];
   const selectedStem = stems.find((s) => s.id === selectedStemId) || null;
   const selectedStemDef = selectedStem ? FLOWER_DEFINITIONS.find((f) => f.id === selectedStem.typeId) : null;
+  const selectedStemIndex = stems.findIndex((s) => s.id === selectedStemId);
 
   // Save history state
   const pushHistory = useCallback((newStems: PlacedStem[]) => {
@@ -189,7 +197,41 @@ export const BouquetStudioPage: React.FC = () => {
     pushHistory(nextStems);
   };
 
-  // Layering
+  // Layering controls: Move behind next flower, bring forward, etc.
+  const moveLayerDown = (id?: string) => {
+    const targetId = id || selectedStemId;
+    if (!targetId) return;
+    const idx = stems.findIndex((s) => s.id === targetId);
+    if (idx <= 0) {
+      showToast('Already at the back layer 🌻', 'info');
+      return;
+    }
+    const next = [...stems];
+    const temp = next[idx];
+    next[idx] = next[idx - 1];
+    next[idx - 1] = temp;
+    setStems(next);
+    pushHistory(next);
+    showToast('Moved behind previous flower 🌸', 'info');
+  };
+
+  const moveLayerUp = (id?: string) => {
+    const targetId = id || selectedStemId;
+    if (!targetId) return;
+    const idx = stems.findIndex((s) => s.id === targetId);
+    if (idx < 0 || idx >= stems.length - 1) {
+      showToast('Already at the front layer 🌻', 'info');
+      return;
+    }
+    const next = [...stems];
+    const temp = next[idx];
+    next[idx] = next[idx + 1];
+    next[idx + 1] = temp;
+    setStems(next);
+    pushHistory(next);
+    showToast('Moved in front of next flower 🌸', 'info');
+  };
+
   const bringToFront = () => {
     if (!selectedStemId) return;
     const target = stems.find((s) => s.id === selectedStemId);
@@ -198,6 +240,7 @@ export const BouquetStudioPage: React.FC = () => {
     const nextStems = [...rest, target];
     setStems(nextStems);
     pushHistory(nextStems);
+    showToast('Brought to top of arrangement 🌻', 'info');
   };
 
   const sendToBack = () => {
@@ -208,6 +251,7 @@ export const BouquetStudioPage: React.FC = () => {
     const nextStems = [target, ...rest];
     setStems(nextStems);
     pushHistory(nextStems);
+    showToast('Sent to back behind all flowers 🌿', 'info');
   };
 
   const duplicateSelected = () => {
@@ -281,6 +325,7 @@ export const BouquetStudioPage: React.FC = () => {
     if (!stem) return;
 
     isDraggingRef.current = true;
+    dragMovedRef.current = false;
     dragStartRef.current = {
       x: e.clientX,
       y: e.clientY,
@@ -296,6 +341,7 @@ export const BouquetStudioPage: React.FC = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    dragMovedRef.current = true;
     const rect = canvas.getBoundingClientRect();
     const deltaX = ((e.clientX - dragStartRef.current.x) / rect.width) * 100;
     const deltaY = ((e.clientY - dragStartRef.current.y) / rect.height) * 100;
@@ -311,7 +357,16 @@ export const BouquetStudioPage: React.FC = () => {
   const handlePointerUpCanvas = () => {
     if (isDraggingRef.current) {
       isDraggingRef.current = false;
-      pushHistory(stems);
+      if (dragMovedRef.current) {
+        pushHistory(stems);
+      }
+    }
+  };
+
+  // Handle canvas background click to deselect
+  const handleCanvasBackgroundClick = (e: React.MouseEvent) => {
+    if (e.target === canvasRef.current || (e.target as HTMLElement).dataset.canvasBg) {
+      setSelectedStemId(null);
     }
   };
 
@@ -339,7 +394,7 @@ export const BouquetStudioPage: React.FC = () => {
               <Sparkles className="w-5 h-5 text-sunflower-500 animate-pulse" />
             </h1>
             <p className="text-xs text-warm-500 dark:text-warm-400 font-medium">
-              3D interactive bouquet design • Tucked stems inside wraps, vases & baskets 💐🌻
+              Click any flower to edit • Reorder stems & layers in 3D 💐🌻
             </p>
           </div>
         </div>
@@ -397,13 +452,14 @@ export const BouquetStudioPage: React.FC = () => {
         <div className="lg:col-span-7 flex flex-col gap-4">
           <div
             ref={canvasRef}
+            data-canvas-bg="true"
+            onClick={handleCanvasBackgroundClick}
             onPointerMove={handlePointerMoveCanvas}
             onPointerUp={handlePointerUpCanvas}
-            onClick={() => setSelectedStemId(null)}
-            className="relative w-full h-[540px] sm:h-[620px] rounded-[36px] bg-gradient-to-b from-amber-50/60 via-warm-50 to-warm-100 dark:from-darkbg-surface dark:via-darkbg-card dark:to-zinc-950 border border-warm-200/90 dark:border-darkbg-border shadow-warm-lg overflow-hidden select-none touch-none"
+            className="relative w-full h-[540px] sm:h-[620px] rounded-[36px] bg-gradient-to-b from-amber-50/60 via-warm-50 to-warm-100 dark:from-darkbg-surface dark:via-darkbg-card dark:to-zinc-950 border border-warm-200/90 dark:border-darkbg-border shadow-warm-lg overflow-hidden select-none touch-none cursor-default"
           >
             {/* Ambient Background Glow */}
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-amber-300/20 dark:bg-amber-500/10 blur-3xl pointer-events-none" />
+            <div data-canvas-bg="true" className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-amber-300/20 dark:bg-amber-500/10 blur-3xl pointer-events-none" />
 
             {/* ======================================================== */}
             {/* LAYER 1: BACK 3D WRAPPER PANEL / CONE INTERIOR (z-index: 10) */}
@@ -420,7 +476,6 @@ export const BouquetStudioPage: React.FC = () => {
 
               {currentWrapper.type === 'vase' && (
                 <svg viewBox="0 0 240 280" className="w-full h-full">
-                  {/* Back of glass vase with water depth */}
                   <rect x="50" y="80" width="140" height="180" rx="20" fill={currentWrapper.backBg} stroke={currentWrapper.borderColor} strokeWidth="2" opacity="0.6" />
                   <rect x="52" y="130" width="136" height="126" rx="10" fill="#38bdf8" opacity="0.15" />
                 </svg>
@@ -428,7 +483,6 @@ export const BouquetStudioPage: React.FC = () => {
 
               {currentWrapper.type === 'basket' && (
                 <svg viewBox="0 0 240 280" className="w-full h-full">
-                  {/* Basket interior rim and back wall */}
                   <ellipse cx="120" cy="110" rx="90" ry="25" fill={currentWrapper.backBg} stroke={currentWrapper.borderColor} strokeWidth="3" />
                 </svg>
               )}
@@ -442,20 +496,31 @@ export const BouquetStudioPage: React.FC = () => {
               return (
                 <div
                   key={stem.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedStemId(stem.id);
+                  }}
                   onPointerDown={(e) => handlePointerDownStem(e, stem.id)}
                   style={{
                     left: `${stem.x}%`,
                     top: `${stem.y}%`,
                     transform: `translate(-50%, -50%) rotate(${stem.rotation}deg) scale(${stem.scale})`,
-                    cursor: 'grab',
+                    cursor: isSelected ? 'move' : 'pointer',
                   }}
-                  className={`absolute transition-shadow duration-150 z-20 ${
+                  className={`absolute transition-transform duration-100 z-20 cursor-pointer ${
                     isSelected
-                      ? 'ring-2 ring-sunflower-500 rounded-full p-1 shadow-warm-glow !z-25'
+                      ? 'ring-2 ring-sunflower-500 rounded-3xl p-2 shadow-warm-glow !z-25 bg-amber-500/10'
                       : 'hover:scale-105'
                   }`}
                 >
                   <BotanicalRenderer typeId={stem.typeId} color={stem.color} size={115} />
+
+                  {/* Selection Indicator Tag */}
+                  {isSelected && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-sunflower-500 text-white font-extrabold text-[9px] shadow-sm whitespace-nowrap">
+                      Selected
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -495,7 +560,6 @@ export const BouquetStudioPage: React.FC = () => {
 
               {currentWrapper.type === 'vase' && (
                 <svg viewBox="0 0 240 280" className="w-full h-full drop-shadow-md">
-                  {/* Glass front with water level & highlight reflections */}
                   <rect
                     x="50"
                     y="80"
@@ -507,12 +571,9 @@ export const BouquetStudioPage: React.FC = () => {
                     strokeWidth="3"
                     className="backdrop-blur-[1px]"
                   />
-                  {/* Glass shine reflection streak */}
                   <path d="M65 100 L65 240" stroke="#ffffff" strokeWidth="6" strokeLinecap="round" opacity="0.6" />
                   <path d="M75 110 L75 220" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" opacity="0.4" />
-                  {/* Water line */}
                   <line x1="52" y1="130" x2="188" y2="130" stroke="#38bdf8" strokeWidth="3" strokeDasharray="6,4" opacity="0.7" />
-                  {/* Ribbon bow around vase neck */}
                   <rect x="48" y="90" width="144" height="12" rx="4" fill={currentWrapper.ribbonColor} />
                   <circle cx="120" cy="96" r="7" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5" />
                 </svg>
@@ -520,14 +581,12 @@ export const BouquetStudioPage: React.FC = () => {
 
               {currentWrapper.type === 'basket' && (
                 <svg viewBox="0 0 240 280" className="w-full h-full drop-shadow-lg">
-                  {/* Woven Basket Body */}
                   <path
                     d="M35 110 L50 250 Q120 270 190 250 L205 110 Q120 125 35 110 Z"
                     fill={currentWrapper.frontBg}
                     stroke={currentWrapper.borderColor}
                     strokeWidth="3"
                   />
-                  {/* Woven texture lines */}
                   {[...Array(6)].map((_, i) => (
                     <path
                       key={i}
@@ -538,9 +597,7 @@ export const BouquetStudioPage: React.FC = () => {
                       opacity="0.6"
                     />
                   ))}
-                  {/* Basket Rim */}
                   <ellipse cx="120" cy="110" rx="88" ry="16" fill="none" stroke={currentWrapper.borderColor} strokeWidth="5" />
-                  {/* Front Ribbon Bow */}
                   <circle cx="120" cy="125" r="8" fill={currentWrapper.ribbonColor} />
                   <path d="M120 125 L95 160 L120 145 L145 160 Z" fill={currentWrapper.ribbonColor} />
                 </svg>
@@ -564,54 +621,158 @@ export const BouquetStudioPage: React.FC = () => {
               return (
                 <div
                   key={stem.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedStemId(stem.id);
+                  }}
                   onPointerDown={(e) => handlePointerDownStem(e, stem.id)}
                   style={{
                     left: `${stem.x}%`,
                     top: `${stem.y}%`,
                     transform: `translate(-50%, -50%) rotate(${stem.rotation}deg) scale(${stem.scale})`,
-                    cursor: 'grab',
+                    cursor: isSelected ? 'move' : 'pointer',
                   }}
-                  className={`absolute transition-shadow duration-150 z-40 ${
+                  className={`absolute transition-transform duration-100 z-40 cursor-pointer ${
                     isSelected
-                      ? 'ring-2 ring-sunflower-500 rounded-full p-1 shadow-warm-glow'
+                      ? 'ring-2 ring-sunflower-500 rounded-3xl p-2 shadow-warm-glow bg-amber-500/10'
                       : 'hover:scale-105'
                   }`}
                 >
                   <BotanicalRenderer typeId={stem.typeId} color={stem.color} size={115} />
+
+                  {isSelected && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-sunflower-500 text-white font-extrabold text-[9px] shadow-sm whitespace-nowrap">
+                      Selected
+                    </div>
+                  )}
                 </div>
               );
             })}
 
             {/* Canvas Bottom Information */}
             <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-[11px] text-warm-500 dark:text-warm-400 font-medium pointer-events-none z-40">
-              <span>🌻 Stems tuck realistically into the 3D wrapper</span>
-              <span>{stems.length} botanical items placed</span>
+              <span>🌻 Click any flower to select and edit its details</span>
+              <span>{stems.length} items placed</span>
             </div>
           </div>
 
           {/* Selected Item Floating Inspector Toolbar */}
           {selectedStem && (
-            <div className="p-4 rounded-3xl bg-white/90 dark:bg-darkbg-card/90 backdrop-blur-md border border-sunflower-300 dark:border-sunflower-800 shadow-warm-md flex flex-wrap items-center justify-between gap-3 animate-slide-up">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl flex items-center justify-center bg-sunflower-100 dark:bg-sunflower-950 border border-sunflower-300 dark:border-sunflower-800">
-                  <BotanicalRenderer typeId={selectedStem.typeId} color={selectedStem.color} size={28} />
+            <div className="p-4 rounded-3xl bg-white/95 dark:bg-darkbg-card/95 backdrop-blur-md border-2 border-sunflower-400 dark:border-sunflower-600 shadow-warm-lg flex flex-col gap-3 animate-slide-up">
+              {/* Header Info */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-sunflower-100 dark:bg-sunflower-950 border border-sunflower-300 dark:border-sunflower-800">
+                    <BotanicalRenderer typeId={selectedStem.typeId} color={selectedStem.color} size={32} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-extrabold text-warm-900 dark:text-warm-100">
+                      {selectedStemDef?.name || 'Selected Flower'}
+                    </h4>
+                    <p className="text-[11px] text-warm-500">
+                      Layer #{selectedStemIndex + 1} of {stems.length} • {selectedStem.inFront ? 'Pinned in front' : 'Tucked inside wrap'}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-xs font-extrabold text-warm-900 dark:text-warm-100">
-                    {selectedStemDef?.name || 'Selected Item'}
-                  </h4>
-                  <p className="text-[10px] text-warm-500">
-                    {selectedStem.inFront ? 'Pinned in front of wrapper' : 'Tucked inside 3D wrapper cone'}
-                  </p>
-                </div>
+
+                <button
+                  onClick={() => setSelectedStemId(null)}
+                  className="px-3 py-1 text-xs font-bold text-warm-500 hover:text-warm-800 bg-warm-100 dark:bg-darkbg-surface rounded-xl"
+                >
+                  Done
+                </button>
               </div>
 
-              {/* Controls: Rotate, Scale, Layer, Placement, Duplicate, Delete */}
-              <div className="flex items-center flex-wrap gap-2">
-                {/* 3D Placement Toggle: Inside vs In Front */}
+              {/* Controls Grid */}
+              <div className="flex items-center flex-wrap gap-2 pt-2 border-t border-warm-100 dark:border-darkbg-border">
+                {/* 1. LAYER REORDERING (Go behind / Go in front of another flower) */}
+                <div className="flex items-center gap-1 bg-warm-100 dark:bg-darkbg-surface p-1 rounded-2xl">
+                  <span className="text-[10px] font-bold text-warm-500 px-1.5 flex items-center gap-1">
+                    <Layers className="w-3 h-3" />
+                    <span>Layer:</span>
+                  </span>
+
+                  {/* Move Behind previous flower */}
+                  <button
+                    onClick={() => moveLayerDown()}
+                    disabled={selectedStemIndex <= 0}
+                    className="p-1.5 rounded-xl text-warm-700 dark:text-warm-300 hover:bg-white dark:hover:bg-darkbg-card hover:text-sunflower-600 transition-colors disabled:opacity-30"
+                    title="Move 1 Step Behind another flower"
+                  >
+                    <ArrowDown className="w-4 h-4" />
+                  </button>
+
+                  {/* Move In Front of next flower */}
+                  <button
+                    onClick={() => moveLayerUp()}
+                    disabled={selectedStemIndex >= stems.length - 1}
+                    className="p-1.5 rounded-xl text-warm-700 dark:text-warm-300 hover:bg-white dark:hover:bg-darkbg-card hover:text-sunflower-600 transition-colors disabled:opacity-30"
+                    title="Move 1 Step In Front of next flower"
+                  >
+                    <ArrowUp className="w-4 h-4" />
+                  </button>
+
+                  {/* Send to Back of all */}
+                  <button
+                    onClick={sendToBack}
+                    className="p-1.5 rounded-xl text-warm-700 dark:text-warm-300 hover:bg-white dark:hover:bg-darkbg-card hover:text-sunflower-600 transition-colors"
+                    title="Send to Very Back of Bouquet"
+                  >
+                    <ChevronsDown className="w-4 h-4" />
+                  </button>
+
+                  {/* Bring to Very Front */}
+                  <button
+                    onClick={bringToFront}
+                    className="p-1.5 rounded-xl text-warm-700 dark:text-warm-300 hover:bg-white dark:hover:bg-darkbg-card hover:text-sunflower-600 transition-colors"
+                    title="Bring to Very Top of Bouquet"
+                  >
+                    <ChevronsUp className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* 2. ROTATION */}
+                <div className="flex items-center gap-1 bg-warm-100 dark:bg-darkbg-surface p-1 rounded-2xl">
+                  <button
+                    onClick={() => updateSelectedStem({ rotation: (selectedStem.rotation - 15) % 360 })}
+                    className="p-1.5 text-warm-700 dark:text-warm-300 hover:text-sunflower-600 rounded-xl"
+                    title="Rotate left 15°"
+                  >
+                    <RotateCcw className="w-4 h-4" />
+                  </button>
+                  <span className="text-xs font-mono font-bold px-1.5">{selectedStem.rotation}°</span>
+                  <button
+                    onClick={() => updateSelectedStem({ rotation: (selectedStem.rotation + 15) % 360 })}
+                    className="p-1.5 text-warm-700 dark:text-warm-300 hover:text-sunflower-600 rounded-xl"
+                    title="Rotate right 15°"
+                  >
+                    <RotateCw className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* 3. SCALE / SIZE */}
+                <div className="flex items-center gap-1 bg-warm-100 dark:bg-darkbg-surface p-1 rounded-2xl">
+                  <button
+                    onClick={() => updateSelectedStem({ scale: Math.max(0.5, selectedStem.scale - 0.1) })}
+                    className="p-1.5 text-warm-700 dark:text-warm-300 hover:text-sunflower-600 rounded-xl"
+                    title="Shrink"
+                  >
+                    <ZoomOut className="w-4 h-4" />
+                  </button>
+                  <span className="text-xs font-mono font-bold px-1.5">{Math.round(selectedStem.scale * 100)}%</span>
+                  <button
+                    onClick={() => updateSelectedStem({ scale: Math.min(2.0, selectedStem.scale + 0.1) })}
+                    className="p-1.5 text-warm-700 dark:text-warm-300 hover:text-sunflower-600 rounded-xl"
+                    title="Enlarge"
+                  >
+                    <ZoomIn className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* 4. INSIDE WRAP VS IN FRONT TOGGLE */}
                 <button
                   onClick={() => updateSelectedStem({ inFront: !selectedStem.inFront })}
-                  className={`px-2.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  className={`px-3 py-1.5 rounded-2xl text-xs font-bold flex items-center gap-1.5 transition-all ${
                     selectedStem.inFront
                       ? 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300'
                       : 'bg-warm-100 dark:bg-darkbg-surface text-warm-700 dark:text-warm-300 hover:bg-warm-200'
@@ -622,53 +783,15 @@ export const BouquetStudioPage: React.FC = () => {
                   <span>{selectedStem.inFront ? 'In Front' : 'Inside Wrap'}</span>
                 </button>
 
-                {/* Rotate Step */}
-                <div className="flex items-center gap-1 bg-warm-100 dark:bg-darkbg-surface p-1 rounded-xl">
-                  <button
-                    onClick={() => updateSelectedStem({ rotation: (selectedStem.rotation - 15) % 360 })}
-                    className="p-1 text-warm-700 dark:text-warm-300 hover:text-sunflower-600 rounded-lg"
-                    title="Rotate left 15°"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                  </button>
-                  <span className="text-[10px] font-mono font-bold px-1">{selectedStem.rotation}°</span>
-                  <button
-                    onClick={() => updateSelectedStem({ rotation: (selectedStem.rotation + 15) % 360 })}
-                    className="p-1 text-warm-700 dark:text-warm-300 hover:text-sunflower-600 rounded-lg"
-                    title="Rotate right 15°"
-                  >
-                    <RotateCw className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-
-                {/* Scale Step */}
-                <div className="flex items-center gap-1 bg-warm-100 dark:bg-darkbg-surface p-1 rounded-xl">
-                  <button
-                    onClick={() => updateSelectedStem({ scale: Math.max(0.5, selectedStem.scale - 0.1) })}
-                    className="p-1 text-warm-700 dark:text-warm-300 hover:text-sunflower-600 rounded-lg"
-                    title="Shrink"
-                  >
-                    <ZoomOut className="w-3.5 h-3.5" />
-                  </button>
-                  <span className="text-[10px] font-mono font-bold px-1">{Math.round(selectedStem.scale * 100)}%</span>
-                  <button
-                    onClick={() => updateSelectedStem({ scale: Math.min(2.0, selectedStem.scale + 0.1) })}
-                    className="p-1 text-warm-700 dark:text-warm-300 hover:text-sunflower-600 rounded-lg"
-                    title="Enlarge"
-                  >
-                    <ZoomIn className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-
-                {/* Color Variations */}
+                {/* 5. COLOR PICKER */}
                 {selectedStemDef?.availableColors && (
-                  <div className="flex items-center gap-1 bg-warm-100 dark:bg-darkbg-surface p-1 rounded-xl">
+                  <div className="flex items-center gap-1 bg-warm-100 dark:bg-darkbg-surface p-1 rounded-2xl">
                     {selectedStemDef.availableColors.map((c) => (
                       <button
                         key={c.hex}
                         onClick={() => updateSelectedStem({ color: c.hex })}
-                        className={`w-4 h-4 rounded-full border ${
-                          selectedStem.color === c.hex ? 'ring-2 ring-sunflower-500 scale-110' : ''
+                        className={`w-5 h-5 rounded-full border ${
+                          selectedStem.color === c.hex ? 'ring-2 ring-sunflower-500 scale-110 shadow-sm' : ''
                         }`}
                         style={{ backgroundColor: c.hex, borderColor: '#cbd5e1' }}
                         title={c.name}
@@ -677,45 +800,28 @@ export const BouquetStudioPage: React.FC = () => {
                   </div>
                 )}
 
-                {/* Layering */}
-                <button
-                  onClick={bringToFront}
-                  className="p-1.5 rounded-xl bg-warm-100 dark:bg-darkbg-surface text-warm-700 dark:text-warm-300 hover:bg-warm-200"
-                  title="Bring to Top"
-                >
-                  <ArrowUp className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={sendToBack}
-                  className="p-1.5 rounded-xl bg-warm-100 dark:bg-darkbg-surface text-warm-700 dark:text-warm-300 hover:bg-warm-200"
-                  title="Send to Bottom"
-                >
-                  <ArrowDown className="w-3.5 h-3.5" />
-                </button>
-
-                {/* Duplicate */}
+                {/* 6. DUPLICATE & DELETE */}
                 <button
                   onClick={duplicateSelected}
-                  className="p-1.5 rounded-xl bg-warm-100 dark:bg-darkbg-surface text-warm-700 dark:text-warm-300 hover:bg-warm-200"
-                  title="Duplicate"
+                  className="p-2 rounded-2xl bg-warm-100 dark:bg-darkbg-surface text-warm-700 dark:text-warm-300 hover:bg-warm-200"
+                  title="Duplicate flower"
                 >
-                  <Copy className="w-3.5 h-3.5" />
+                  <Copy className="w-4 h-4" />
                 </button>
 
-                {/* Delete */}
                 <button
                   onClick={deleteSelected}
-                  className="p-1.5 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100"
-                  title="Delete"
+                  className="p-2 rounded-2xl bg-rose-50 text-rose-600 hover:bg-rose-100 ml-auto"
+                  title="Delete flower"
                 >
-                  <Trash2 className="w-3.5 h-3.5" />
+                  <Trash2 className="w-4 h-4" />
                 </button>
               </div>
             </div>
           )}
         </div>
 
-        {/* RIGHT: Botanical Library, 12+ Wrappers & Tag Editor (5 cols) */}
+        {/* RIGHT: Botanical Library, Layers List & Wrappers (5 cols) */}
         <div className="lg:col-span-5 flex flex-col gap-5">
           {/* Studio Navigation Tabs */}
           <div className="flex items-center gap-1.5 p-1.5 bg-white/80 dark:bg-darkbg-card/80 border border-warm-200 dark:border-darkbg-border rounded-3xl overflow-x-auto shadow-warm-sm">
@@ -724,7 +830,8 @@ export const BouquetStudioPage: React.FC = () => {
               { id: 'flower', label: '🌹 Flowers' },
               { id: 'greenery', label: '🌿 Greenery' },
               { id: 'decoration', label: '✨ Accents' },
-              { id: 'wrapper', label: '🎁 Wrappers & Vases' },
+              { id: 'wrapper', label: '🎁 Wrappers' },
+              { id: 'layers', label: `📑 Layers (${stems.length})` },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -740,14 +847,14 @@ export const BouquetStudioPage: React.FC = () => {
             ))}
           </div>
 
-          {/* Tab Content 1-4: Botanical Items Picker */}
-          {activeTab !== 'wrapper' ? (
+          {/* TAB 1-4: Botanical Items Picker */}
+          {activeTab !== 'wrapper' && activeTab !== 'layers' && (
             <div className="bg-white/80 dark:bg-darkbg-card/80 p-5 rounded-3xl border border-warm-200 dark:border-darkbg-border shadow-warm-sm flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-extrabold text-warm-900 dark:text-warm-100 uppercase tracking-wider">
                   Tap to add to bouquet
                 </h3>
-                <span className="text-[10px] text-warm-400">Tucks into 3D wrapper</span>
+                <span className="text-[10px] text-warm-400">Click multiple to arrange</span>
               </div>
 
               {/* Items Grid */}
@@ -768,8 +875,10 @@ export const BouquetStudioPage: React.FC = () => {
                 ))}
               </div>
             </div>
-          ) : (
-            /* Tab Content 5: 12+ Wrappers, Vases & Greeting Card Tag */
+          )}
+
+          {/* TAB 5: Wrappers, Vases & Greeting Tag */}
+          {activeTab === 'wrapper' && (
             <div className="bg-white/80 dark:bg-darkbg-card/80 p-5 rounded-3xl border border-warm-200 dark:border-darkbg-border shadow-warm-sm flex flex-col gap-4">
               <h3 className="text-xs font-extrabold text-warm-900 dark:text-warm-100 uppercase tracking-wider">
                 12 3D Covers, Vases & Baskets
@@ -813,6 +922,88 @@ export const BouquetStudioPage: React.FC = () => {
                   className="w-full px-3.5 py-2 rounded-2xl bg-warm-50 dark:bg-darkbg-surface border border-warm-200 dark:border-darkbg-border text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sunflower-400"
                 />
               </div>
+            </div>
+          )}
+
+          {/* TAB 6: LAYERS & FLOWER STACK REORDERING */}
+          {activeTab === 'layers' && (
+            <div className="bg-white/80 dark:bg-darkbg-card/80 p-5 rounded-3xl border border-warm-200 dark:border-darkbg-border shadow-warm-sm flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs font-extrabold text-warm-900 dark:text-warm-100 uppercase tracking-wider">
+                  Bouquet Layers (Top to Bottom)
+                </h3>
+                <span className="text-[10px] text-warm-400">Click to select & reorder</span>
+              </div>
+
+              {stems.length === 0 ? (
+                <div className="py-8 text-center text-xs text-warm-400">
+                  No flowers in bouquet yet. Add some from the flower library! 🌻
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2 max-h-[360px] overflow-y-auto pr-1">
+                  {[...stems].reverse().map((stem, revIdx) => {
+                    const actualIdx = stems.length - 1 - revIdx;
+                    const isSelected = stem.id === selectedStemId;
+                    const def = FLOWER_DEFINITIONS.find((f) => f.id === stem.typeId);
+
+                    return (
+                      <div
+                        key={stem.id}
+                        onClick={() => setSelectedStemId(stem.id)}
+                        className={`p-2.5 rounded-2xl border flex items-center justify-between gap-2.5 cursor-pointer transition-all ${
+                          isSelected
+                            ? 'bg-sunflower-50 dark:bg-sunflower-950/70 border-sunflower-500 ring-2 ring-sunflower-400'
+                            : 'bg-warm-50 dark:bg-darkbg-surface border-warm-200/80 hover:bg-warm-100'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-white dark:bg-darkbg-card border border-warm-200 shrink-0">
+                            <BotanicalRenderer typeId={stem.typeId} color={stem.color} size={22} />
+                          </div>
+                          <div className="truncate">
+                            <p className="text-xs font-bold text-warm-900 dark:text-warm-100 truncate">
+                              {def?.name || 'Flower'}
+                            </p>
+                            <p className="text-[10px] text-warm-400">
+                              {stem.inFront ? 'Front Ribbon' : `Layer #${actualIdx + 1}`}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Layer order buttons */}
+                        <div className="flex items-center gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
+                          <button
+                            onClick={() => moveLayerDown(stem.id)}
+                            disabled={actualIdx <= 0}
+                            className="p-1 rounded-lg text-warm-600 hover:bg-warm-200 dark:hover:bg-darkbg-card disabled:opacity-30"
+                            title="Move Behind Next Flower"
+                          >
+                            <ArrowDown className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => moveLayerUp(stem.id)}
+                            disabled={actualIdx >= stems.length - 1}
+                            className="p-1 rounded-lg text-warm-600 hover:bg-warm-200 dark:hover:bg-darkbg-card disabled:opacity-30"
+                            title="Move in Front of Next Flower"
+                          >
+                            <ArrowUp className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              setSelectedStemId(stem.id);
+                              deleteSelected();
+                            }}
+                            className="p-1 rounded-lg text-rose-500 hover:bg-rose-50"
+                            title="Delete"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
 
