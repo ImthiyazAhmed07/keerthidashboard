@@ -34,7 +34,10 @@ import {
 import { SunflowerIcon } from '../components/ui/SunflowerIcon';
 import { fireSunflowerConfetti } from '../components/ui/Confetti';
 import { useToast } from '../context/ToastContext';
+import { useData } from '../context/DataContext';
+import { sound } from '../utils/audio';
 import { ConfirmModal } from '../components/modals/ConfirmModal';
+import { Save, CheckCheck, Loader2 } from 'lucide-react';
 
 export interface PlacedStem {
   id: string;
@@ -150,18 +153,36 @@ const PRESET_BOUQUETS: { name: string; wrapper: string; tag: string; stems: Plac
 
 export const BouquetStudioPage: React.FC = () => {
   const { showToast } = useToast();
+  const { data, saveBouquet } = useData();
 
-  const [stems, setStems] = useState<PlacedStem[]>(PRESET_BOUQUETS[0].stems);
+  const [stems, setStems] = useState<PlacedStem[]>(
+    data?.bouquet?.stems && data.bouquet.stems.length > 0
+      ? data.bouquet.stems
+      : PRESET_BOUQUETS[0].stems
+  );
   const [selectedStemId, setSelectedStemId] = useState<string | null>(null);
-  const [wrapperStyleId, setWrapperStyleId] = useState('kraft');
-  const [greetingTag, setGreetingTag] = useState('For Keerthika 🌻');
+  const [wrapperStyleId, setWrapperStyleId] = useState(
+    data?.bouquet?.wrapperStyleId || 'kraft'
+  );
+  const [greetingTag, setGreetingTag] = useState(
+    data?.bouquet?.greetingTag || 'For Keerthika 🌻'
+  );
   const [activeTab, setActiveTab] = useState<'sunflower' | 'flower' | 'greenery' | 'decoration' | 'wrapper' | 'layers'>('sunflower');
   const [activeCategoryColor, setActiveCategoryColor] = useState<string | null>(null);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [lastSavedTime, setLastSavedTime] = useState<string | null>(
+    data?.bouquet?.updatedAt ? new Date(data.bouquet.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : null
+  );
+
+  const initialLoadedRef = useRef(false);
 
   // Undo / Redo history stack
-  const historyRef = useRef<PlacedStem[][]>([PRESET_BOUQUETS[0].stems]);
+  const historyRef = useRef<PlacedStem[][]>([
+    data?.bouquet?.stems && data.bouquet.stems.length > 0 ? data.bouquet.stems : PRESET_BOUQUETS[0].stems
+  ]);
   const historyIndexRef = useRef<number>(0);
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
@@ -176,6 +197,64 @@ export const BouquetStudioPage: React.FC = () => {
   const selectedStemDef = selectedStem ? FLOWER_DEFINITIONS.find((f) => f.id === selectedStem.typeId) : null;
   const selectedStemIndex = stems.findIndex((s) => s.id === selectedStemId);
 
+  // Load saved bouquet on initial fetch
+  useEffect(() => {
+    if (!initialLoadedRef.current && data?.bouquet && data.bouquet.stems && data.bouquet.stems.length > 0) {
+      setStems(data.bouquet.stems);
+      setWrapperStyleId(data.bouquet.wrapperStyleId || 'kraft');
+      setGreetingTag(data.bouquet.greetingTag || 'For Keerthika 🌻');
+      historyRef.current = [data.bouquet.stems];
+      historyIndexRef.current = 0;
+      setCanUndo(false);
+      setCanRedo(false);
+      setHasUnsavedChanges(false);
+      if (data.bouquet.updatedAt) {
+        setLastSavedTime(new Date(data.bouquet.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      }
+      initialLoadedRef.current = true;
+    }
+  }, [data?.bouquet]);
+
+  // Save bouquet handler
+  const handleSaveBouquet = async () => {
+    setIsSaving(true);
+    try {
+      const now = new Date();
+      await saveBouquet({
+        wrapperStyleId,
+        greetingTag,
+        stems,
+        updatedAt: now.toISOString(),
+      });
+      setHasUnsavedChanges(false);
+      setLastSavedTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      sound.playSunflowerSound();
+      fireSunflowerConfetti();
+      showToast('Bouquet saved permanently! 🌻', 'success');
+    } catch (err: any) {
+      showToast(err.message || 'Failed to save bouquet', 'error');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Auto-save debounce after 3 seconds of inactivity
+  useEffect(() => {
+    if (!hasUnsavedChanges) return;
+    const timer = setTimeout(() => {
+      const now = new Date();
+      saveBouquet({
+        wrapperStyleId,
+        greetingTag,
+        stems,
+        updatedAt: now.toISOString(),
+      });
+      setHasUnsavedChanges(false);
+      setLastSavedTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [stems, wrapperStyleId, greetingTag, hasUnsavedChanges, saveBouquet]);
+
   // Save history state
   const pushHistory = useCallback((newStems: PlacedStem[]) => {
     const nextHistory = historyRef.current.slice(0, historyIndexRef.current + 1);
@@ -185,6 +264,7 @@ export const BouquetStudioPage: React.FC = () => {
     historyIndexRef.current = nextHistory.length - 1;
     setCanUndo(historyIndexRef.current > 0);
     setCanRedo(false);
+    setHasUnsavedChanges(true);
   }, []);
 
   const handleUndo = () => {
@@ -458,6 +538,35 @@ export const BouquetStudioPage: React.FC = () => {
             title="Redo"
           >
             <RotateCw className="w-4 h-4" />
+          </button>
+
+          {/* Permanent Save Bouquet Button */}
+          <button
+            onClick={handleSaveBouquet}
+            disabled={isSaving}
+            className={`py-2.5 px-4 rounded-2xl font-bold text-xs flex items-center gap-2 shadow-warm-sm transition-all active:scale-95 ${
+              hasUnsavedChanges
+                ? 'bg-gradient-to-r from-sunflower-500 to-amber-500 hover:from-sunflower-600 hover:to-amber-600 text-white animate-pulse-gentle ring-2 ring-sunflower-400'
+                : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+            }`}
+            title="Save Bouquet Progress Permanently"
+          >
+            {isSaving ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Saving...</span>
+              </>
+            ) : hasUnsavedChanges ? (
+              <>
+                <Save className="w-4 h-4" />
+                <span>Save Progress 💾</span>
+              </>
+            ) : (
+              <>
+                <CheckCheck className="w-4 h-4 text-emerald-100" />
+                <span>Saved 🌻</span>
+              </>
+            )}
           </button>
 
           <button

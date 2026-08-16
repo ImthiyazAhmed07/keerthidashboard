@@ -181,6 +181,15 @@ export const api = {
       body: JSON.stringify({ name }),
     }),
 
+  // Bouquet Studio
+  getBouquet: () => request<{ success: boolean; data: any }>('/api/bouquet'),
+
+  saveBouquet: (payload: { wrapperStyleId: string; greetingTag: string; stems: any[] }) =>
+    request<{ success: boolean; bouquet: any }>('/api/bouquet', {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    }),
+
   // Backup & Stats
   getStats: () => request('/api/backup/stats'),
 

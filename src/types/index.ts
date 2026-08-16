@@ -74,6 +74,24 @@ export interface SettingsData {
   greetingStyle: string;
 }
 
+export interface BouquetStem {
+  id: string;
+  typeId: string;
+  color: string;
+  x: number;
+  y: number;
+  rotation: number;
+  scale: number;
+  inFront?: boolean;
+}
+
+export interface BouquetData {
+  wrapperStyleId: string;
+  greetingTag: string;
+  stems: BouquetStem[];
+  updatedAt?: string;
+}
+
 export interface FullDashboardData {
   user: UserProfile;
   notes: NoteItem[];
@@ -82,6 +100,7 @@ export interface FullDashboardData {
   links: LinkItem[];
   favouriteSong: FavouriteSong;
   settings: SettingsData;
+  bouquet?: BouquetData;
 }
 
 export type ToastType = 'success' | 'error' | 'info';

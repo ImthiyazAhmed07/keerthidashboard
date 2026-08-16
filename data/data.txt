@@ -30,3 +30,7 @@ greetingStyle=warm
 [DATES]
 
 [LINKS]
+
+[BOUQUET]
+wrapperStyleId=kraft
+greetingTag=For Keerthika 🌻

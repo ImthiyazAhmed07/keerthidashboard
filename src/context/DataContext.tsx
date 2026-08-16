@@ -7,6 +7,7 @@ import {
   LinkItem,
   FavouriteSong,
   SettingsData,
+  BouquetData,
 } from '../types';
 import { api } from '../utils/api';
 import { useAuth } from './AuthContext';
@@ -40,6 +41,8 @@ interface DataContextType {
   deleteLink: (id: string) => Promise<void>;
   // Song
   updateSong: (song: { song: string; artist: string; image?: string; url?: string; note?: string }) => Promise<void>;
+  // Bouquet Studio
+  saveBouquet: (bouquet: BouquetData) => Promise<void>;
   // Settings & Profile
   updateSettings: (settings: Partial<SettingsData>) => Promise<void>;
   updateProfile: (name: string) => Promise<void>;
@@ -80,9 +83,10 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
           serverData.tasks.length === 0 &&
           serverData.dates.length === 0 &&
           serverData.links.length === 0 &&
+          (!serverData.bouquet || serverData.bouquet.stems.length === 0) &&
           !serverData.favouriteSong?.song;
 
-        // Check if browser has previously saved notes/tasks before a fresh redeploy
+        // Check if browser has previously saved notes/tasks/bouquet before a fresh redeploy
         if (typeof window !== 'undefined' && isServerCleanEmpty) {
           const cached = localStorage.getItem(STORAGE_CACHE_KEY);
           if (cached) {
@@ -93,6 +97,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 parsedCache.tasks.length > 0 ||
                 parsedCache.dates.length > 0 ||
                 parsedCache.links.length > 0 ||
+                (parsedCache.bouquet && parsedCache.bouquet.stems.length > 0) ||
                 !!parsedCache.favouriteSong?.song;
 
               if (hasCachedContent) {
@@ -467,6 +472,31 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const saveBouquet = async (bouquetData: BouquetData) => {
+    try {
+      // Optimistically update state & local cache immediately
+      setData((prev) => {
+        if (!prev) return null;
+        const next = { ...prev, bouquet: bouquetData };
+        persistToLocalCache(next);
+        return next;
+      });
+
+      const res = await api.saveBouquet(bouquetData);
+      if (res.success && res.bouquet) {
+        setData((prev) => {
+          if (!prev) return null;
+          const next = { ...prev, bouquet: res.bouquet };
+          persistToLocalCache(next);
+          return next;
+        });
+      }
+    } catch (err: any) {
+      console.error('Failed to save bouquet to server:', err);
+      // Still preserved in localStorage!
+    }
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -489,6 +519,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         updateLink,
         deleteLink,
         updateSong,
+        saveBouquet,
         updateSettings,
         updateProfile,
       }}

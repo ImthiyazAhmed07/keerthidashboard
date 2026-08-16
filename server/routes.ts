@@ -509,6 +509,45 @@ apiRouter.put('/user/profile', async (req: Request, res: Response) => {
 });
 
 // ------------------------------------------
+// BOUQUET STUDIO ENDPOINTS
+// ------------------------------------------
+apiRouter.get('/bouquet', async (req: Request, res: Response) => {
+  try {
+    const data = await readData();
+    res.json({
+      success: true,
+      data: data.bouquet || {
+        wrapperStyleId: 'kraft',
+        greetingTag: 'For Keerthika 🌻',
+        stems: [],
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch bouquet data.' });
+  }
+});
+
+apiRouter.put('/bouquet', async (req: Request, res: Response) => {
+  try {
+    const { wrapperStyleId, greetingTag, stems } = req.body;
+    const data = await readData();
+
+    data.bouquet = {
+      wrapperStyleId: wrapperStyleId || 'kraft',
+      greetingTag: greetingTag !== undefined ? String(greetingTag) : 'For Keerthika 🌻',
+      stems: Array.isArray(stems) ? stems : [],
+      updatedAt: new Date().toISOString(),
+    };
+
+    await writeData(data);
+    res.json({ success: true, bouquet: data.bouquet });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to save bouquet progress.' });
+  }
+});
+
+// ------------------------------------------
 // BACKUP & DATA STATS
 // ------------------------------------------
 apiRouter.get('/backup/raw', async (req: Request, res: Response) => {

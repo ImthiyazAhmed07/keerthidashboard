@@ -65,6 +65,24 @@ export interface SettingsData {
   greetingStyle: string;
 }
 
+export interface BouquetStem {
+  id: string;
+  typeId: string;
+  color: string;
+  x: number;
+  y: number;
+  rotation: number;
+  scale: number;
+  inFront?: boolean;
+}
+
+export interface BouquetData {
+  wrapperStyleId: string;
+  greetingTag: string;
+  stems: BouquetStem[];
+  updatedAt?: string;
+}
+
 export interface FullDashboardData {
   user: UserProfile;
   notes: NoteItem[];
@@ -73,6 +91,7 @@ export interface FullDashboardData {
   links: LinkItem[];
   favouriteSong: FavouriteSong;
   settings: SettingsData;
+  bouquet?: BouquetData;
 }
 
 const DATA_FILE = process.env.DATA_FILE_PATH
@@ -278,6 +297,39 @@ export function parseDataFile(content: string): FullDashboardData {
           createdAt,
         });
       }
+    } else if (currentSection === 'BOUQUET') {
+      if (!data.bouquet) {
+        data.bouquet = {
+          wrapperStyleId: 'kraft',
+          greetingTag: 'For Keerthika 🌻',
+          stems: [],
+          updatedAt: new Date().toISOString(),
+        };
+      }
+
+      if (line.includes('=')) {
+        const eqIdx = line.indexOf('=');
+        const key = line.slice(0, eqIdx).trim();
+        const val = unescapeField(line.slice(eqIdx + 1).trim());
+        if (key === 'wrapper' || key === 'wrapperStyleId') data.bouquet.wrapperStyleId = val;
+        else if (key === 'tag' || key === 'greetingTag') data.bouquet.greetingTag = val;
+        else if (key === 'updatedAt') data.bouquet.updatedAt = val;
+      } else {
+        // stem: id|typeId|color|x|y|rotation|scale|inFront
+        const parts = splitEscaped(rawLine);
+        if (parts.length >= 7) {
+          data.bouquet.stems.push({
+            id: parts[0],
+            typeId: unescapeField(parts[1]),
+            color: unescapeField(parts[2]),
+            x: parseFloat(parts[3]) || 50,
+            y: parseFloat(parts[4]) || 40,
+            rotation: parseFloat(parts[5]) || 0,
+            scale: parseFloat(parts[6]) || 1.0,
+            inFront: parts[7] === 'true',
+          });
+        }
+      }
     }
   }
 
@@ -412,6 +464,29 @@ export function serializeDataFile(data: FullDashboardData): string {
     lines.push(row);
   }
   lines.push('');
+
+  // BOUQUET
+  if (data.bouquet) {
+    lines.push('[BOUQUET]');
+    lines.push(`wrapperStyleId=${escapeField(data.bouquet.wrapperStyleId || 'kraft')}`);
+    lines.push(`greetingTag=${escapeField(data.bouquet.greetingTag || 'For Keerthika 🌻')}`);
+    lines.push(`updatedAt=${escapeField(data.bouquet.updatedAt || new Date().toISOString())}`);
+    for (const s of data.bouquet.stems || []) {
+      // id|typeId|color|x|y|rotation|scale|inFront
+      const row = [
+        s.id,
+        escapeField(s.typeId),
+        escapeField(s.color),
+        s.x,
+        s.y,
+        s.rotation,
+        s.scale,
+        s.inFront ? 'true' : 'false',
+      ].join('|');
+      lines.push(row);
+    }
+    lines.push('');
+  }
 
   return lines.join('\n');
 }
