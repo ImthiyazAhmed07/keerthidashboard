@@ -296,94 +296,163 @@ export const FLOWER_DEFINITIONS: FlowerDefinition[] = [
 export interface WrapperStyle {
   id: string;
   name: string;
-  bgGradient: string;
+  type: 'cone' | 'vase' | 'basket';
+  frontBg: string;
+  backBg: string;
   borderColor: string;
   ribbonColor: string;
-  pattern: 'plain' | 'kraft' | 'floral' | 'newspaper' | 'polka' | 'stripes' | 'glass';
+  texturePattern: string;
+  isTranslucent?: boolean;
 }
 
 export const WRAPPER_STYLES: WrapperStyle[] = [
   {
     id: 'kraft',
     name: 'Rustic Kraft Paper',
-    bgGradient: 'from-amber-200 via-amber-100 to-amber-300',
-    borderColor: '#d97706',
+    type: 'cone',
+    frontBg: '#e2be88',
+    backBg: '#b38f5c',
+    borderColor: '#9a7543',
     ribbonColor: '#78350f',
-    pattern: 'kraft',
+    texturePattern: 'kraft',
   },
   {
     id: 'linen-white',
     name: 'Crisp White Linen',
-    bgGradient: 'from-slate-100 via-white to-slate-200',
+    type: 'cone',
+    frontBg: '#f8fafc',
+    backBg: '#e2e8f0',
     borderColor: '#cbd5e1',
     ribbonColor: '#f59e0b',
-    pattern: 'plain',
+    texturePattern: 'linen',
   },
   {
     id: 'pastel-lavender',
     name: 'Pastel Lilac & Blush',
-    bgGradient: 'from-purple-200 via-pink-100 to-purple-300',
+    type: 'cone',
+    frontBg: '#f5d0fe',
+    backBg: '#e879f9',
     borderColor: '#c084fc',
     ribbonColor: '#a855f7',
-    pattern: 'plain',
+    texturePattern: 'pastel',
   },
   {
     id: 'vintage-newspaper',
-    name: 'Vintage French Press',
-    bgGradient: 'from-stone-200 via-stone-100 to-amber-100',
+    name: 'Vintage French Gazette',
+    type: 'cone',
+    frontBg: '#f5f0e6',
+    backBg: '#d7cbb5',
     borderColor: '#78716c',
     ribbonColor: '#292524',
-    pattern: 'newspaper',
+    texturePattern: 'newspaper',
   },
   {
     id: 'golden-sunburst',
-    name: 'Sunflower Glow Wrapper',
-    bgGradient: 'from-amber-400 via-yellow-200 to-amber-500',
+    name: 'Sunflower Gold Foil',
+    type: 'cone',
+    frontBg: '#fde047',
+    backBg: '#ca8a04',
     borderColor: '#f59e0b',
     ribbonColor: '#92400e',
-    pattern: 'floral',
+    texturePattern: 'gold',
   },
   {
-    id: 'frosted-transparent',
-    name: 'Frosted Glass Cone',
-    bgGradient: 'from-white/40 via-white/20 to-white/50',
-    borderColor: '#e2e8f0',
-    ribbonColor: '#f59e0b',
-    pattern: 'glass',
+    id: 'sage-velvet',
+    name: 'Sage Forest Velvet',
+    type: 'cone',
+    frontBg: '#86efac',
+    backBg: '#22c55e',
+    borderColor: '#15803d',
+    ribbonColor: '#14532d',
+    texturePattern: 'velvet',
   },
   {
-    id: 'polka-pink',
-    name: 'Sweet Polka Dots',
-    bgGradient: 'from-rose-200 via-pink-100 to-rose-300',
-    borderColor: '#fb7185',
+    id: 'midnight-celestial',
+    name: 'Midnight Starlight',
+    type: 'cone',
+    frontBg: '#1e293b',
+    backBg: '#0f172a',
+    borderColor: '#f59e0b',
+    ribbonColor: '#fbbf24',
+    texturePattern: 'stars',
+  },
+  {
+    id: 'sakura-blossom',
+    name: 'Sakura Blossom Pink',
+    type: 'cone',
+    frontBg: '#fbcfe8',
+    backBg: '#f472b6',
+    borderColor: '#db2777',
     ribbonColor: '#e11d48',
-    pattern: 'polka',
+    texturePattern: 'sakura',
+  },
+  {
+    id: 'glass-vase',
+    name: 'Crystal Glass Vase 🏺',
+    type: 'vase',
+    frontBg: 'rgba(255, 255, 255, 0.45)',
+    backBg: 'rgba(241, 245, 249, 0.65)',
+    borderColor: '#94a3b8',
+    ribbonColor: '#0ea5e9',
+    texturePattern: 'glass',
+    isTranslucent: true,
+  },
+  {
+    id: 'wicker-basket',
+    name: 'Woven Wicker Basket 🧺',
+    type: 'basket',
+    frontBg: '#d97706',
+    backBg: '#92400e',
+    borderColor: '#78350f',
+    ribbonColor: '#dc2626',
+    texturePattern: 'wicker',
+  },
+  {
+    id: 'frosted-organza',
+    name: 'Frosted Organza Tulle',
+    type: 'cone',
+    frontBg: 'rgba(254, 243, 199, 0.65)',
+    backBg: 'rgba(253, 230, 138, 0.85)',
+    borderColor: '#fcd34d',
+    ribbonColor: '#f59e0b',
+    texturePattern: 'frosted',
+    isTranslucent: true,
+  },
+  {
+    id: 'coffee-roaster',
+    name: 'Artisan Mocha Craft',
+    type: 'cone',
+    frontBg: '#78350f',
+    backBg: '#451a03',
+    borderColor: '#291102',
+    ribbonColor: '#d97706',
+    texturePattern: 'kraft',
   },
 ];
 
-// SVG Renderer Component for Individual Botanical Elements
+// SVG Botanical Renderer with Long Stems and Botanical Detail
 export const BotanicalRenderer: React.FC<{
   typeId: string;
   color: string;
   size?: number;
-}> = ({ typeId, color, size = 100 }) => {
+}> = ({ typeId, color, size = 120 }) => {
   switch (typeId) {
     // 🌻 Sunflowers
     case 'sunflower-classic':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          {/* Stem & Leaves */}
-          <path d="M50 50 Q48 75 50 100" stroke="#15803d" strokeWidth="4.5" strokeLinecap="round" fill="none" />
-          <path d="M50 75 Q68 70 70 82 Q55 88 50 78" fill="#16a34a" />
-          <path d="M50 82 Q32 78 30 90 Q45 96 50 86" fill="#15803d" />
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          {/* Long Stem */}
+          <path d="M50 50 Q48 90 50 130" stroke="#15803d" strokeWidth="5" strokeLinecap="round" fill="none" />
+          <path d="M50 80 Q72 74 74 90 Q56 94 50 84" fill="#16a34a" />
+          <path d="M50 95 Q28 88 26 104 Q44 110 50 98" fill="#15803d" />
 
-          {/* Radiating Sunflower Petals */}
+          {/* Radiating Petals */}
           {[...Array(16)].map((_, i) => {
             const angle = (i * 360) / 16;
             return (
               <path
                 key={i}
-                d="M50 50 C44 26 46 12 50 4 C54 12 56 26 50 50"
+                d="M50 50 C44 26 46 10 50 4 C54 10 56 26 50 50"
                 fill={color}
                 stroke="#d97706"
                 strokeWidth="0.8"
@@ -397,15 +466,15 @@ export const BotanicalRenderer: React.FC<{
             const angle = (i * 360) / 16 + 11.25;
             return (
               <path
-                key={`inner-${i}`}
-                d="M50 50 C46 32 47 22 50 14 C53 22 54 32 50 50"
+                key={`in-${i}`}
+                d="M50 50 C46 32 47 20 50 14 C53 20 54 32 50 50"
                 fill="#fbbf24"
                 transform={`rotate(${angle} 50 50)`}
               />
             );
           })}
 
-          {/* Sunflower Center Disk */}
+          {/* Center Disk */}
           <circle cx="50" cy="50" r="18" fill="#451a03" />
           <circle cx="50" cy="50" r="15" fill="#78350f" stroke="#92400e" strokeWidth="1.5" strokeDasharray="3,2" />
           <circle cx="50" cy="50" r="10" fill="#451a03" stroke="#d97706" strokeWidth="1" strokeDasharray="2,2" />
@@ -415,10 +484,9 @@ export const BotanicalRenderer: React.FC<{
 
     case 'sunflower-teddy':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 50 Q52 75 50 100" stroke="#15803d" strokeWidth="4.5" strokeLinecap="round" fill="none" />
-          <path d="M50 78 Q68 74 68 85 Q54 89 50 80" fill="#16a34a" />
-          {/* Dense ruffled fluff layers */}
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 50 Q52 90 50 130" stroke="#15803d" strokeWidth="5" strokeLinecap="round" fill="none" />
+          <path d="M50 82 Q70 76 70 90 Q54 94 50 85" fill="#16a34a" />
           {[...Array(24)].map((_, i) => (
             <path
               key={i}
@@ -436,24 +504,14 @@ export const BotanicalRenderer: React.FC<{
               transform={`rotate(${(i * 360) / 18 + 10} 50 50)`}
             />
           ))}
-          {[...Array(12)].map((_, i) => (
-            <circle
-              key={`c-${i}`}
-              cx="50"
-              cy="34"
-              r="7"
-              fill="#f59e0b"
-              transform={`rotate(${(i * 360) / 12} 50 50)`}
-            />
-          ))}
           <circle cx="50" cy="50" r="11" fill="#78350f" stroke="#ca8a04" strokeWidth="1.5" />
         </svg>
       );
 
     case 'sunflower-sunburst':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 50 Q49 75 50 100" stroke="#15803d" strokeWidth="4" strokeLinecap="round" fill="none" />
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 50 Q49 90 50 130" stroke="#15803d" strokeWidth="4.5" strokeLinecap="round" fill="none" />
           {[...Array(16)].map((_, i) => (
             <path
               key={i}
@@ -477,8 +535,8 @@ export const BotanicalRenderer: React.FC<{
 
     case 'sunflower-velvet':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 50 Q51 75 50 100" stroke="#15803d" strokeWidth="4" strokeLinecap="round" fill="none" />
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 50 Q51 90 50 130" stroke="#15803d" strokeWidth="4.5" strokeLinecap="round" fill="none" />
           {[...Array(16)].map((_, i) => (
             <path
               key={i}
@@ -497,8 +555,8 @@ export const BotanicalRenderer: React.FC<{
 
     case 'sunflower-mini':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 50 Q48 75 50 100" stroke="#16a34a" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 50 Q48 90 50 130" stroke="#16a34a" strokeWidth="3.5" strokeLinecap="round" fill="none" />
           {[...Array(12)].map((_, i) => (
             <path
               key={i}
@@ -517,16 +575,14 @@ export const BotanicalRenderer: React.FC<{
     // 🌹 Roses
     case 'rose':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 55 Q51 75 50 100" stroke="#15803d" strokeWidth="4" strokeLinecap="round" fill="none" />
-          <path d="M50 75 Q68 70 66 82 Q52 86 50 78" fill="#16a34a" />
-          <path d="M50 82 Q32 78 34 88 Q48 92 50 84" fill="#15803d" />
-          {/* Calyx & Outer petals */}
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 55 Q51 90 50 130" stroke="#15803d" strokeWidth="4.5" strokeLinecap="round" fill="none" />
+          <path d="M50 80 Q70 74 68 86 Q52 90 50 82" fill="#16a34a" />
+          <path d="M50 94 Q30 88 32 100 Q48 104 50 96" fill="#15803d" />
           <circle cx="50" cy="45" r="32" fill={color} opacity="0.9" />
           <path d="M22 45 C22 25 45 18 50 25 C55 18 78 25 78 45 C78 65 55 72 50 68 C45 72 22 65 22 45 Z" fill={color} />
           <path d="M28 42 C30 28 48 24 50 30 C52 24 70 28 72 42 C72 58 52 64 50 60 C48 64 28 58 28 42 Z" fill="#ffffff" opacity="0.25" />
           <path d="M34 40 C36 30 48 28 50 32 C52 28 64 30 66 40 C66 52 52 56 50 54 C48 56 34 52 34 40 Z" fill={color} filter="brightness(0.9)" />
-          {/* Spiral core */}
           <circle cx="50" cy="42" r="10" fill={color} filter="brightness(0.8)" />
           <path d="M46 40 Q50 36 54 40 Q54 46 48 45" stroke="#ffffff" strokeWidth="1.8" fill="none" strokeLinecap="round" />
         </svg>
@@ -535,10 +591,9 @@ export const BotanicalRenderer: React.FC<{
     // 🌷 Tulips
     case 'tulip':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 50 Q52 75 50 100" stroke="#16a34a" strokeWidth="4.5" strokeLinecap="round" fill="none" />
-          <path d="M50 65 Q72 55 75 75 Q60 85 50 70" fill="#22c55e" />
-          {/* Tulip Cup Petals */}
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 50 Q52 90 50 130" stroke="#16a34a" strokeWidth="5" strokeLinecap="round" fill="none" />
+          <path d="M50 75 Q75 65 78 85 Q62 98 50 80" fill="#22c55e" />
           <path d="M50 16 C30 20 24 45 35 60 C42 66 50 66 50 66 C50 66 58 66 65 60 C76 45 70 20 50 16 Z" fill={color} />
           <path d="M36 56 C30 44 32 28 50 18 C38 30 36 46 44 58 Z" fill="#ffffff" opacity="0.3" />
           <path d="M64 56 C70 44 68 28 50 18 C62 30 64 46 56 58 Z" fill="#000000" opacity="0.15" />
@@ -549,9 +604,8 @@ export const BotanicalRenderer: React.FC<{
     // 🌸 Lilies
     case 'lily':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 50 Q50 75 50 100" stroke="#15803d" strokeWidth="4" strokeLinecap="round" fill="none" />
-          {/* 6 Elegant Flared Petals */}
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 50 Q50 90 50 130" stroke="#15803d" strokeWidth="4.5" strokeLinecap="round" fill="none" />
           {[...Array(6)].map((_, i) => (
             <path
               key={i}
@@ -562,17 +616,6 @@ export const BotanicalRenderer: React.FC<{
               transform={`rotate(${i * 60} 50 50)`}
             />
           ))}
-          {/* Inner Petal Highlights & Speckles */}
-          {[...Array(6)].map((_, i) => (
-            <path
-              key={`h-${i}`}
-              d="M50 50 C47 38 48 24 50 18 C52 24 53 38 50 50"
-              fill="#ffffff"
-              opacity="0.4"
-              transform={`rotate(${i * 60} 50 50)`}
-            />
-          ))}
-          {/* Pistil & Stamens */}
           {[...Array(5)].map((_, i) => (
             <line
               key={`stamen-${i}`}
@@ -593,8 +636,8 @@ export const BotanicalRenderer: React.FC<{
     // 🌼 Daisies
     case 'daisy':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 50 Q50 75 50 100" stroke="#16a34a" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 50 Q50 90 50 130" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" fill="none" />
           {[...Array(14)].map((_, i) => (
             <ellipse
               key={i}
@@ -616,8 +659,8 @@ export const BotanicalRenderer: React.FC<{
     // 🌿 Daffodils
     case 'daffodil':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 50 Q52 75 50 100" stroke="#16a34a" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 50 Q52 90 50 130" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" fill="none" />
           {[...Array(6)].map((_, i) => (
             <path
               key={i}
@@ -626,7 +669,6 @@ export const BotanicalRenderer: React.FC<{
               transform={`rotate(${i * 60} 50 50)`}
             />
           ))}
-          {/* Central Ruffled Trumpet */}
           <circle cx="50" cy="50" r="14" fill="#f59e0b" stroke="#d97706" strokeWidth="1.5" strokeDasharray="3,2" />
           <circle cx="50" cy="50" r="8" fill="#ea580c" />
         </svg>
@@ -635,16 +677,13 @@ export const BotanicalRenderer: React.FC<{
     // 🌺 Orchids
     case 'orchid':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 50 Q48 75 50 100" stroke="#15803d" strokeWidth="3.5" strokeLinecap="round" fill="none" />
-          {/* Sepals */}
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 50 Q48 90 50 130" stroke="#15803d" strokeWidth="4" strokeLinecap="round" fill="none" />
           <path d="M50 50 C44 28 46 14 50 6 C54 14 56 28 50 50" fill={color} opacity="0.9" />
           <path d="M50 50 C30 42 16 44 8 50 C16 56 30 58 50 50" fill={color} opacity="0.9" />
           <path d="M50 50 C70 42 84 44 92 50 C84 56 70 58 50 50" fill={color} opacity="0.9" />
-          {/* Broad Wings */}
           <path d="M50 50 C32 30 20 24 16 32 C12 40 28 54 50 50" fill={color} />
           <path d="M50 50 C68 30 80 24 84 32 C88 40 72 54 50 50" fill={color} />
-          {/* Central Lip & Throat */}
           <path d="M50 48 C42 56 44 68 50 72 C56 68 58 56 50 48" fill="#ec4899" />
           <circle cx="50" cy="50" r="4" fill="#facc15" />
         </svg>
@@ -653,9 +692,9 @@ export const BotanicalRenderer: React.FC<{
     // 🌾 Lavender
     case 'lavender':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 10 L50 100" stroke="#15803d" strokeWidth="3" strokeLinecap="round" />
-          {[...Array(10)].map((_, i) => {
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 10 L50 130" stroke="#15803d" strokeWidth="3.5" strokeLinecap="round" />
+          {[...Array(12)].map((_, i) => {
             const y = 15 + i * 6;
             return (
               <g key={i}>
@@ -671,8 +710,8 @@ export const BotanicalRenderer: React.FC<{
     // 💮 Carnations
     case 'carnation':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 55 Q51 75 50 100" stroke="#15803d" strokeWidth="4" strokeLinecap="round" fill="none" />
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 55 Q51 90 50 130" stroke="#15803d" strokeWidth="4.5" strokeLinecap="round" fill="none" />
           {[...Array(16)].map((_, i) => (
             <path
               key={i}
@@ -692,22 +731,14 @@ export const BotanicalRenderer: React.FC<{
     // 🌼 Chrysanthemums
     case 'chrysanthemum':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 50 Q50 75 50 100" stroke="#15803d" strokeWidth="4" strokeLinecap="round" fill="none" />
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 50 Q50 90 50 130" stroke="#15803d" strokeWidth="4.5" strokeLinecap="round" fill="none" />
           {[...Array(20)].map((_, i) => (
             <path
               key={i}
               d="M50 50 C45 32 46 14 50 8 C54 14 55 32 50 50"
               fill={color}
               transform={`rotate(${(i * 360) / 20} 50 50)`}
-            />
-          ))}
-          {[...Array(14)].map((_, i) => (
-            <path
-              key={`in-${i}`}
-              d="M50 50 C46 36 47 22 50 16 C53 22 54 36 50 50"
-              fill="#fbbf24"
-              transform={`rotate(${(i * 360) / 14 + 12} 50 50)`}
             />
           ))}
           <circle cx="50" cy="50" r="8" fill="#ca8a04" />
@@ -717,14 +748,10 @@ export const BotanicalRenderer: React.FC<{
     // ☁️ Baby's Breath
     case 'babys-breath':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          {/* Multi-branched stem */}
-          <path d="M50 100 L50 60 Q35 45 25 30" stroke="#16a34a" strokeWidth="2" fill="none" />
-          <path d="M50 60 Q65 45 75 30" stroke="#16a34a" strokeWidth="2" fill="none" />
-          <path d="M50 60 L50 25" stroke="#16a34a" strokeWidth="2" fill="none" />
-          <path d="M35 45 L42 28" stroke="#16a34a" strokeWidth="1.5" fill="none" />
-          <path d="M65 45 L58 28" stroke="#16a34a" strokeWidth="1.5" fill="none" />
-          {/* Clusters of puffy blooms */}
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 130 L50 60 Q35 45 25 30" stroke="#16a34a" strokeWidth="2.5" fill="none" />
+          <path d="M50 60 Q65 45 75 30" stroke="#16a34a" strokeWidth="2.5" fill="none" />
+          <path d="M50 60 L50 25" stroke="#16a34a" strokeWidth="2.5" fill="none" />
           {[
             { cx: 25, cy: 30 },
             { cx: 75, cy: 30 },
@@ -737,7 +764,7 @@ export const BotanicalRenderer: React.FC<{
             { cx: 66, cy: 18 },
             { cx: 50, cy: 12 },
           ].map((pt, i) => (
-            <circle key={i} cx={pt.cx} cy={pt.cy} r="4.5" fill={color} stroke="#cbd5e1" strokeWidth="0.8" />
+            <circle key={i} cx={pt.cx} cy={pt.cy} r="5" fill={color} stroke="#cbd5e1" strokeWidth="0.8" />
           ))}
         </svg>
       );
@@ -745,33 +772,33 @@ export const BotanicalRenderer: React.FC<{
     // 🌿 Eucalyptus
     case 'eucalyptus':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 10 Q48 55 50 100" stroke="#475569" strokeWidth="3" strokeLinecap="round" fill="none" />
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 10 Q48 70 50 130" stroke="#475569" strokeWidth="3.5" strokeLinecap="round" fill="none" />
           {[...Array(6)].map((_, i) => {
-            const y = 20 + i * 12;
+            const y = 20 + i * 14;
             return (
               <g key={i}>
-                <ellipse cx="36" cy={y} rx="12" ry="9" fill={color} opacity="0.9" transform={`rotate(-25 36 ${y})`} />
-                <ellipse cx="64" cy={y + 4} rx="12" ry="9" fill={color} opacity="0.9" transform={`rotate(25 64 ${y + 4})`} />
+                <ellipse cx="36" cy={y} rx="13" ry="10" fill={color} opacity="0.9" transform={`rotate(-25 36 ${y})`} />
+                <ellipse cx="64" cy={y + 4} rx="13" ry="10" fill={color} opacity="0.9" transform={`rotate(25 64 ${y + 4})`} />
               </g>
             );
           })}
-          <ellipse cx="50" cy="14" rx="8" ry="6" fill={color} />
+          <ellipse cx="50" cy="14" rx="9" ry="7" fill={color} />
         </svg>
       );
 
     // 🌿 Fern
     case 'fern':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 10 Q53 55 50 100" stroke="#14532d" strokeWidth="3" strokeLinecap="round" fill="none" />
-          {[...Array(8)].map((_, i) => {
-            const y = 22 + i * 9;
-            const w = 18 - i * 0.8;
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 10 Q53 70 50 130" stroke="#14532d" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+          {[...Array(9)].map((_, i) => {
+            const y = 20 + i * 10;
+            const w = 20 - i * 0.8;
             return (
               <g key={i}>
-                <path d={`M50 ${y} Q32 ${y - 8} ${50 - w} ${y - 4}`} stroke={color} strokeWidth="3" strokeLinecap="round" fill="none" />
-                <path d={`M50 ${y + 2} Q68 ${y - 6} ${50 + w} ${y - 2}`} stroke={color} strokeWidth="3" strokeLinecap="round" fill="none" />
+                <path d={`M50 ${y} Q30 ${y - 8} ${50 - w} ${y - 4}`} stroke={color} strokeWidth="3.5" strokeLinecap="round" fill="none" />
+                <path d={`M50 ${y + 2} Q70 ${y - 6} ${50 + w} ${y - 2}`} stroke={color} strokeWidth="3.5" strokeLinecap="round" fill="none" />
               </g>
             );
           })}
@@ -781,33 +808,30 @@ export const BotanicalRenderer: React.FC<{
     // 🌿 Monstera
     case 'monstera':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 65 L50 100" stroke="#14532d" strokeWidth="4" strokeLinecap="round" />
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 65 L50 130" stroke="#14532d" strokeWidth="4.5" strokeLinecap="round" />
           <path
             d="M50 15 C30 15 20 35 22 55 C24 70 40 75 50 75 C60 75 76 70 78 55 C80 35 70 15 50 15 Z"
             fill={color}
           />
-          {/* Leaf Ribs */}
           <line x1="50" y1="18" x2="50" y2="75" stroke="#14532d" strokeWidth="2.5" />
           <line x1="50" y1="35" x2="30" y2="28" stroke="#14532d" strokeWidth="1.8" />
           <line x1="50" y1="35" x2="70" y2="28" stroke="#14532d" strokeWidth="1.8" />
-          <line x1="50" y1="50" x2="28" y2="46" stroke="#14532d" strokeWidth="1.8" />
-          <line x1="50" y1="50" x2="72" y2="46" stroke="#14532d" strokeWidth="1.8" />
         </svg>
       );
 
     // 🌿 Olive Branch
     case 'olive-branch':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 15 Q46 55 50 100" stroke="#365314" strokeWidth="3" strokeLinecap="round" fill="none" />
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 15 Q46 70 50 130" stroke="#365314" strokeWidth="3.5" strokeLinecap="round" fill="none" />
           {[...Array(6)].map((_, i) => {
-            const y = 24 + i * 11;
+            const y = 24 + i * 12;
             return (
               <g key={i}>
-                <ellipse cx="36" cy={y} rx="11" ry="4.5" fill={color} transform={`rotate(-30 36 ${y})`} />
-                <ellipse cx="64" cy={y + 3} rx="11" ry="4.5" fill={color} transform={`rotate(30 64 ${y + 3})`} />
-                {i % 2 === 0 && <circle cx="48" cy={y + 5} r="3" fill="#1c1917" />}
+                <ellipse cx="36" cy={y} rx="12" ry="5" fill={color} transform={`rotate(-30 36 ${y})`} />
+                <ellipse cx="64" cy={y + 3} rx="12" ry="5" fill={color} transform={`rotate(30 64 ${y + 3})`} />
+                {i % 2 === 0 && <circle cx="48" cy={y + 5} r="3.5" fill="#1c1917" />}
               </g>
             );
           })}
@@ -817,14 +841,14 @@ export const BotanicalRenderer: React.FC<{
     // 🌿 Ruscus
     case 'ruscus':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm">
-          <path d="M50 12 L50 100" stroke="#14532d" strokeWidth="3" strokeLinecap="round" />
-          {[...Array(7)].map((_, i) => {
-            const y = 20 + i * 10;
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130" className="drop-shadow-sm pointer-events-none">
+          <path d="M50 12 L50 130" stroke="#14532d" strokeWidth="3.5" strokeLinecap="round" />
+          {[...Array(8)].map((_, i) => {
+            const y = 18 + i * 11;
             return (
               <g key={i}>
-                <ellipse cx="38" cy={y} rx="9" ry="4.5" fill={color} transform={`rotate(-35 38 ${y})`} />
-                <ellipse cx="62" cy={y + 2} rx="9" ry="4.5" fill={color} transform={`rotate(35 62 ${y + 2})`} />
+                <ellipse cx="38" cy={y} rx="10" ry="5" fill={color} transform={`rotate(-35 38 ${y})`} />
+                <ellipse cx="62" cy={y + 2} rx="10" ry="5" fill={color} transform={`rotate(35 62 ${y + 2})`} />
               </g>
             );
           })}
@@ -834,14 +858,11 @@ export const BotanicalRenderer: React.FC<{
     // 🦋 Butterfly
     case 'butterfly-gold':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-md">
-          {/* Left Wings */}
+        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-md pointer-events-none">
           <path d="M48 48 C30 20 10 25 15 45 C18 55 35 55 48 50 Z" fill={color} stroke="#1e293b" strokeWidth="1" />
           <path d="M48 52 C32 55 18 65 24 78 C30 85 45 70 48 54 Z" fill={color} filter="brightness(0.9)" stroke="#1e293b" strokeWidth="1" />
-          {/* Right Wings */}
           <path d="M52 48 C70 20 90 25 85 45 C82 55 65 55 52 50 Z" fill={color} stroke="#1e293b" strokeWidth="1" />
           <path d="M52 52 C68 55 82 65 76 78 C70 85 55 70 52 54 Z" fill={color} filter="brightness(0.9)" stroke="#1e293b" strokeWidth="1" />
-          {/* Body & Antennae */}
           <ellipse cx="50" cy="50" rx="3" ry="16" fill="#0f172a" />
           <path d="M50 36 Q42 22 38 20" stroke="#0f172a" strokeWidth="1.5" fill="none" strokeLinecap="round" />
           <path d="M50 36 Q58 22 62 20" stroke="#0f172a" strokeWidth="1.5" fill="none" strokeLinecap="round" />
@@ -851,7 +872,7 @@ export const BotanicalRenderer: React.FC<{
     // ✨ Sparkles
     case 'sparkles':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm animate-pulse-gentle">
+        <svg width={size} height={size} viewBox="0 0 100 100" className="drop-shadow-sm pointer-events-none animate-pulse-gentle">
           <path d="M50 15 Q50 50 15 50 Q50 50 50 85 Q50 50 85 50 Q50 50 50 15 Z" fill={color} />
           <path d="M25 25 Q25 38 12 38 Q25 38 25 51 Q25 38 38 38 Q25 38 25 25 Z" fill={color} opacity="0.8" />
           <path d="M75 65 Q75 75 65 75 Q75 75 75 85 Q75 75 85 75 Q75 75 75 65 Z" fill={color} opacity="0.8" />
@@ -860,7 +881,8 @@ export const BotanicalRenderer: React.FC<{
 
     default:
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100">
+        <svg width={size} height={size * 1.3} viewBox="0 0 100 130">
+          <path d="M50 50 L50 130" stroke="#15803d" strokeWidth="4" />
           <circle cx="50" cy="50" r="25" fill={color} />
         </svg>
       );
