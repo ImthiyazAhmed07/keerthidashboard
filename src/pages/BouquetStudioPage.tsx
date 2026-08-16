@@ -54,20 +54,20 @@ const PRESET_BOUQUETS: { name: string; wrapper: string; tag: string; stems: Plac
     tag: 'Brighten your day! 🌻',
     stems: [
       // Back Foliage
-      { id: '1', typeId: 'fern', color: '#16a34a', x: 50, y: 30, rotation: 0, scale: 1.1 },
-      { id: '2', typeId: 'eucalyptus', color: '#64748b', x: 38, y: 32, rotation: -20, scale: 1.05 },
-      { id: '3', typeId: 'eucalyptus', color: '#64748b', x: 62, y: 32, rotation: 20, scale: 1.05 },
+      { id: '1', typeId: 'fern', color: '#16a34a', x: 50, y: 28, rotation: 0, scale: 1.1 },
+      { id: '2', typeId: 'eucalyptus', color: '#64748b', x: 38, y: 30, rotation: -20, scale: 1.05 },
+      { id: '3', typeId: 'eucalyptus', color: '#64748b', x: 62, y: 30, rotation: 20, scale: 1.05 },
       // Mid Fillers
-      { id: '4', typeId: 'babys-breath', color: '#ffffff', x: 42, y: 35, rotation: -10, scale: 0.9 },
-      { id: '5', typeId: 'babys-breath', color: '#ffffff', x: 58, y: 35, rotation: 10, scale: 0.9 },
+      { id: '4', typeId: 'babys-breath', color: '#ffffff', x: 42, y: 34, rotation: -10, scale: 0.9 },
+      { id: '5', typeId: 'babys-breath', color: '#ffffff', x: 58, y: 34, rotation: 10, scale: 0.9 },
       // Hero Sunflowers Clustered
-      { id: '6', typeId: 'sunflower-classic', color: '#f59e0b', x: 50, y: 38, rotation: 0, scale: 1.25 },
-      { id: '7', typeId: 'sunflower-teddy', color: '#f59e0b', x: 38, y: 43, rotation: -12, scale: 1.05 },
-      { id: '8', typeId: 'sunflower-sunburst', color: '#dc2626', x: 62, y: 43, rotation: 12, scale: 1.05 },
+      { id: '6', typeId: 'sunflower-classic', color: '#f59e0b', x: 50, y: 37, rotation: 0, scale: 1.25 },
+      { id: '7', typeId: 'sunflower-teddy', color: '#f59e0b', x: 38, y: 41, rotation: -12, scale: 1.05 },
+      { id: '8', typeId: 'sunflower-sunburst', color: '#dc2626', x: 62, y: 41, rotation: 12, scale: 1.05 },
       // Front Nestled
-      { id: '9', typeId: 'daisy', color: '#ffffff', x: 44, y: 47, rotation: -6, scale: 0.85 },
-      { id: '10', typeId: 'sunflower-mini', color: '#f59e0b', x: 55, y: 47, rotation: 8, scale: 0.85 },
-      { id: '11', typeId: 'butterfly-gold', color: '#f59e0b', x: 66, y: 25, rotation: 15, scale: 0.75, inFront: true },
+      { id: '9', typeId: 'daisy', color: '#ffffff', x: 44, y: 45, rotation: -6, scale: 0.85 },
+      { id: '10', typeId: 'sunflower-mini', color: '#f59e0b', x: 55, y: 45, rotation: 8, scale: 0.85 },
+      { id: '11', typeId: 'butterfly-gold', color: '#f59e0b', x: 66, y: 22, rotation: 15, scale: 0.75, inFront: true },
     ],
   },
   {
@@ -75,14 +75,14 @@ const PRESET_BOUQUETS: { name: string; wrapper: string; tag: string; stems: Plac
     wrapper: 'linen-white',
     tag: 'Sending warm smiles ✨',
     stems: [
-      { id: '1', typeId: 'ruscus', color: '#22c55e', x: 38, y: 30, rotation: -22, scale: 1.05 },
-      { id: '2', typeId: 'ruscus', color: '#22c55e', x: 62, y: 30, rotation: 22, scale: 1.05 },
-      { id: '3', typeId: 'babys-breath', color: '#ffffff', x: 50, y: 33, rotation: 0, scale: 0.95 },
-      { id: '4', typeId: 'rose', color: '#e11d48', x: 50, y: 38, rotation: 0, scale: 1.2 },
-      { id: '5', typeId: 'rose', color: '#f472b6', x: 40, y: 42, rotation: -12, scale: 1.05 },
-      { id: '6', typeId: 'rose', color: '#fef08a', x: 60, y: 42, rotation: 12, scale: 1.05 },
-      { id: '7', typeId: 'rose', color: '#fb923c', x: 48, y: 47, rotation: 4, scale: 0.95 },
-      { id: '8', typeId: 'sparkles', color: '#fbbf24', x: 68, y: 26, rotation: 0, scale: 0.85, inFront: true },
+      { id: '1', typeId: 'ruscus', color: '#22c55e', x: 38, y: 28, rotation: -22, scale: 1.05 },
+      { id: '2', typeId: 'ruscus', color: '#22c55e', x: 62, y: 28, rotation: 22, scale: 1.05 },
+      { id: '3', typeId: 'babys-breath', color: '#ffffff', x: 50, y: 31, rotation: 0, scale: 0.95 },
+      { id: '4', typeId: 'rose', color: '#e11d48', x: 50, y: 36, rotation: 0, scale: 1.2 },
+      { id: '5', typeId: 'rose', color: '#f472b6', x: 40, y: 40, rotation: -12, scale: 1.05 },
+      { id: '6', typeId: 'rose', color: '#fef08a', x: 60, y: 40, rotation: 12, scale: 1.05 },
+      { id: '7', typeId: 'rose', color: '#fb923c', x: 48, y: 45, rotation: 4, scale: 0.95 },
+      { id: '8', typeId: 'sparkles', color: '#fbbf24', x: 68, y: 24, rotation: 0, scale: 0.85, inFront: true },
     ],
   },
   {
@@ -90,14 +90,14 @@ const PRESET_BOUQUETS: { name: string; wrapper: string; tag: string; stems: Plac
     wrapper: 'pastel-lavender',
     tag: 'Fresh Spring Blooms 🌷',
     stems: [
-      { id: '1', typeId: 'fern', color: '#16a34a', x: 50, y: 30, rotation: 0, scale: 1.05 },
-      { id: '2', typeId: 'lavender', color: '#8b5cf6', x: 38, y: 32, rotation: -14, scale: 1.0 },
-      { id: '3', typeId: 'lavender', color: '#8b5cf6', x: 62, y: 32, rotation: 14, scale: 1.0 },
-      { id: '4', typeId: 'lily', color: '#ec4899', x: 50, y: 38, rotation: 0, scale: 1.15 },
-      { id: '5', typeId: 'tulip', color: '#f43f5e', x: 40, y: 43, rotation: -12, scale: 1.0 },
-      { id: '6', typeId: 'tulip', color: '#facc15', x: 60, y: 43, rotation: 12, scale: 1.0 },
-      { id: '7', typeId: 'daffodil', color: '#facc15', x: 50, y: 47, rotation: 0, scale: 0.95 },
-      { id: '8', typeId: 'butterfly-gold', color: '#38bdf8', x: 34, y: 24, rotation: -18, scale: 0.75, inFront: true },
+      { id: '1', typeId: 'fern', color: '#16a34a', x: 50, y: 28, rotation: 0, scale: 1.05 },
+      { id: '2', typeId: 'lavender', color: '#8b5cf6', x: 38, y: 30, rotation: -14, scale: 1.0 },
+      { id: '3', typeId: 'lavender', color: '#8b5cf6', x: 62, y: 30, rotation: 14, scale: 1.0 },
+      { id: '4', typeId: 'lily', color: '#ec4899', x: 50, y: 36, rotation: 0, scale: 1.15 },
+      { id: '5', typeId: 'tulip', color: '#f43f5e', x: 40, y: 41, rotation: -12, scale: 1.0 },
+      { id: '6', typeId: 'tulip', color: '#facc15', x: 60, y: 41, rotation: 12, scale: 1.0 },
+      { id: '7', typeId: 'daffodil', color: '#facc15', x: 50, y: 45, rotation: 0, scale: 0.95 },
+      { id: '8', typeId: 'butterfly-gold', color: '#38bdf8', x: 34, y: 22, rotation: -18, scale: 0.75, inFront: true },
     ],
   },
   {
@@ -105,15 +105,15 @@ const PRESET_BOUQUETS: { name: string; wrapper: string; tag: string; stems: Plac
     wrapper: 'vintage-newspaper',
     tag: 'Peace & Mindfulness 🌿',
     stems: [
-      { id: '1', typeId: 'olive-branch', color: '#4d7c0f', x: 36, y: 32, rotation: -24, scale: 1.05 },
-      { id: '2', typeId: 'olive-branch', color: '#4d7c0f', x: 64, y: 32, rotation: 24, scale: 1.05 },
-      { id: '3', typeId: 'lavender', color: '#8b5cf6', x: 44, y: 34, rotation: -8, scale: 1.05 },
-      { id: '4', typeId: 'lavender', color: '#8b5cf6', x: 56, y: 34, rotation: 8, scale: 1.05 },
-      { id: '5', typeId: 'daisy', color: '#ffffff', x: 50, y: 40, rotation: 0, scale: 1.1 },
-      { id: '6', typeId: 'daisy', color: '#f472b6', x: 40, y: 44, rotation: -10, scale: 0.95 },
-      { id: '7', typeId: 'carnation', color: '#fb7185', x: 60, y: 44, rotation: 10, scale: 0.95 },
-      { id: '8', typeId: 'sunflower-mini', color: '#f59e0b', x: 50, y: 48, rotation: 4, scale: 0.85 },
-      { id: '9', typeId: 'butterfly-gold', color: '#f59e0b', x: 65, y: 24, rotation: 12, scale: 0.75, inFront: true },
+      { id: '1', typeId: 'olive-branch', color: '#4d7c0f', x: 36, y: 29, rotation: -24, scale: 1.05 },
+      { id: '2', typeId: 'olive-branch', color: '#4d7c0f', x: 64, y: 29, rotation: 24, scale: 1.05 },
+      { id: '3', typeId: 'lavender', color: '#8b5cf6', x: 44, y: 32, rotation: -8, scale: 1.05 },
+      { id: '4', typeId: 'lavender', color: '#8b5cf6', x: 56, y: 32, rotation: 8, scale: 1.05 },
+      { id: '5', typeId: 'daisy', color: '#ffffff', x: 50, y: 38, rotation: 0, scale: 1.1 },
+      { id: '6', typeId: 'daisy', color: '#f472b6', x: 40, y: 42, rotation: -10, scale: 0.95 },
+      { id: '7', typeId: 'carnation', color: '#fb7185', x: 60, y: 42, rotation: 10, scale: 0.95 },
+      { id: '8', typeId: 'sunflower-mini', color: '#f59e0b', x: 50, y: 46, rotation: 4, scale: 0.85 },
+      { id: '9', typeId: 'butterfly-gold', color: '#f59e0b', x: 65, y: 22, rotation: 12, scale: 0.75, inFront: true },
     ],
   },
   {
@@ -121,15 +121,15 @@ const PRESET_BOUQUETS: { name: string; wrapper: string; tag: string; stems: Plac
     wrapper: 'glass-vase',
     tag: 'Morning Dewdrops 🌿',
     stems: [
-      { id: '1', typeId: 'fern', color: '#65a30d', x: 50, y: 30, rotation: 0, scale: 1.05 },
-      { id: '2', typeId: 'eucalyptus', color: '#64748b', x: 38, y: 32, rotation: -18, scale: 1.0 },
-      { id: '3', typeId: 'eucalyptus', color: '#64748b', x: 62, y: 32, rotation: 18, scale: 1.0 },
-      { id: '4', typeId: 'sunflower-classic', color: '#f59e0b', x: 50, y: 38, rotation: 0, scale: 1.2 },
-      { id: '5', typeId: 'tulip', color: '#facc15', x: 40, y: 42, rotation: -10, scale: 1.0 },
-      { id: '6', typeId: 'daffodil', color: '#facc15', x: 60, y: 42, rotation: 10, scale: 1.0 },
-      { id: '7', typeId: 'daisy', color: '#ffffff', x: 46, y: 46, rotation: -6, scale: 0.9 },
-      { id: '8', typeId: 'babys-breath', color: '#ffffff', x: 54, y: 46, rotation: 6, scale: 0.9 },
-      { id: '9', typeId: 'butterfly-gold', color: '#38bdf8', x: 30, y: 22, rotation: -18, scale: 0.75, inFront: true },
+      { id: '1', typeId: 'fern', color: '#65a30d', x: 50, y: 28, rotation: 0, scale: 1.05 },
+      { id: '2', typeId: 'eucalyptus', color: '#64748b', x: 38, y: 30, rotation: -18, scale: 1.0 },
+      { id: '3', typeId: 'eucalyptus', color: '#64748b', x: 62, y: 30, rotation: 18, scale: 1.0 },
+      { id: '4', typeId: 'sunflower-classic', color: '#f59e0b', x: 50, y: 36, rotation: 0, scale: 1.2 },
+      { id: '5', typeId: 'tulip', color: '#facc15', x: 40, y: 40, rotation: -10, scale: 1.0 },
+      { id: '6', typeId: 'daffodil', color: '#facc15', x: 60, y: 40, rotation: 10, scale: 1.0 },
+      { id: '7', typeId: 'daisy', color: '#ffffff', x: 46, y: 44, rotation: -6, scale: 0.9 },
+      { id: '8', typeId: 'babys-breath', color: '#ffffff', x: 54, y: 44, rotation: 6, scale: 0.9 },
+      { id: '9', typeId: 'butterfly-gold', color: '#38bdf8', x: 30, y: 20, rotation: -18, scale: 0.75, inFront: true },
     ],
   },
   {
@@ -137,13 +137,13 @@ const PRESET_BOUQUETS: { name: string; wrapper: string; tag: string; stems: Plac
     wrapper: 'wicker-basket',
     tag: 'Gathered with Love 🧺',
     stems: [
-      { id: '1', typeId: 'olive-branch', color: '#4d7c0f', x: 38, y: 30, rotation: -26, scale: 1.05 },
-      { id: '2', typeId: 'olive-branch', color: '#4d7c0f', x: 62, y: 30, rotation: 26, scale: 1.05 },
-      { id: '3', typeId: 'sunflower-classic', color: '#f59e0b', x: 50, y: 38, rotation: 0, scale: 1.25 },
-      { id: '4', typeId: 'chrysanthemum', color: '#ea580c', x: 38, y: 43, rotation: -12, scale: 1.05 },
-      { id: '5', typeId: 'sunflower-velvet', color: '#881337', x: 62, y: 43, rotation: 12, scale: 1.05 },
-      { id: '6', typeId: 'carnation', color: '#fb7185', x: 44, y: 47, rotation: -6, scale: 0.9 },
-      { id: '7', typeId: 'sunflower-mini', color: '#f59e0b', x: 56, y: 47, rotation: 6, scale: 0.85 },
+      { id: '1', typeId: 'olive-branch', color: '#4d7c0f', x: 38, y: 28, rotation: -26, scale: 1.05 },
+      { id: '2', typeId: 'olive-branch', color: '#4d7c0f', x: 62, y: 28, rotation: 26, scale: 1.05 },
+      { id: '3', typeId: 'sunflower-classic', color: '#f59e0b', x: 50, y: 36, rotation: 0, scale: 1.25 },
+      { id: '4', typeId: 'chrysanthemum', color: '#ea580c', x: 38, y: 41, rotation: -12, scale: 1.05 },
+      { id: '5', typeId: 'sunflower-velvet', color: '#881337', x: 62, y: 41, rotation: 12, scale: 1.05 },
+      { id: '6', typeId: 'carnation', color: '#fb7185', x: 44, y: 45, rotation: -6, scale: 0.9 },
+      { id: '7', typeId: 'sunflower-mini', color: '#f59e0b', x: 56, y: 45, rotation: 6, scale: 0.85 },
     ],
   },
 ];
@@ -217,7 +217,7 @@ export const BouquetStudioPage: React.FC = () => {
       typeId: flowerDef.id,
       color: activeCategoryColor || flowerDef.defaultColor,
       x: isDeco ? 65 + (Math.random() * 8 - 4) : 48 + (Math.random() * 8 - 4),
-      y: isDeco ? 26 + (Math.random() * 6 - 3) : 40 + (Math.random() * 6 - 3),
+      y: isDeco ? 24 + (Math.random() * 6 - 3) : 38 + (Math.random() * 6 - 3),
       rotation: Math.round(Math.random() * 20 - 10),
       scale: flowerDef.defaultScale || 1.0,
       inFront: isDeco,
@@ -435,7 +435,7 @@ export const BouquetStudioPage: React.FC = () => {
               <Sparkles className="w-5 h-5 text-sunflower-500 animate-pulse" />
             </h1>
             <p className="text-xs text-warm-500 dark:text-warm-400 font-medium">
-              Click any flower to edit • Lush nestled florist arrangements in 3D 💐🌻
+              Click any flower to edit • Long stems tucked deep inside 3D wrapper cones 💐🌻
             </p>
           </div>
         </div>
@@ -497,7 +497,7 @@ export const BouquetStudioPage: React.FC = () => {
             onClick={handleCanvasBackgroundClick}
             onPointerMove={handlePointerMoveCanvas}
             onPointerUp={handlePointerUpCanvas}
-            className="relative w-full h-[540px] sm:h-[620px] rounded-[36px] bg-gradient-to-b from-amber-50/60 via-warm-50 to-warm-100 dark:from-darkbg-surface dark:via-darkbg-card dark:to-zinc-950 border border-warm-200/90 dark:border-darkbg-border shadow-warm-lg overflow-hidden select-none touch-none cursor-default"
+            className="relative w-full h-[560px] sm:h-[640px] rounded-[36px] bg-gradient-to-b from-amber-50/60 via-warm-50 to-warm-100 dark:from-darkbg-surface dark:via-darkbg-card dark:to-zinc-950 border border-warm-200/90 dark:border-darkbg-border shadow-warm-lg overflow-hidden select-none touch-none cursor-default"
           >
             {/* Ambient Background Glow */}
             <div data-canvas-bg="true" className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-amber-300/20 dark:bg-amber-500/10 blur-3xl pointer-events-none" />
@@ -505,26 +505,26 @@ export const BouquetStudioPage: React.FC = () => {
             {/* ======================================================== */}
             {/* LAYER 1: BACK 3D WRAPPER PANEL / CONE INTERIOR (z-index: 10) */}
             {/* ======================================================== */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-72 sm:w-80 h-[340px] pointer-events-none z-10 flex flex-col items-center justify-end">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-80 sm:w-96 h-[400px] pointer-events-none z-10 flex flex-col items-center justify-end">
               {currentWrapper.type === 'cone' && (
-                <svg viewBox="0 0 240 280" className="w-full h-full drop-shadow-sm">
-                  {/* Back fan / interior fold */}
-                  <polygon points="120,270 20,50 220,50" fill={currentWrapper.backBg} />
+                <svg viewBox="0 0 240 320" className="w-full h-full drop-shadow-sm">
+                  {/* Back fan / interior fold spanning high to frame the flowers */}
+                  <polygon points="120,310 10,50 230,50" fill={currentWrapper.backBg} />
                   {/* Inner depth shadow */}
-                  <polygon points="120,270 50,60 190,60" fill="#000000" opacity="0.12" />
+                  <polygon points="120,310 40,65 200,65" fill="#000000" opacity="0.14" />
                 </svg>
               )}
 
               {currentWrapper.type === 'vase' && (
-                <svg viewBox="0 0 240 280" className="w-full h-full">
-                  <rect x="50" y="80" width="140" height="180" rx="20" fill={currentWrapper.backBg} stroke={currentWrapper.borderColor} strokeWidth="2" opacity="0.6" />
-                  <rect x="52" y="130" width="136" height="126" rx="10" fill="#38bdf8" opacity="0.15" />
+                <svg viewBox="0 0 240 320" className="w-full h-full">
+                  <rect x="45" y="80" width="150" height="225" rx="24" fill={currentWrapper.backBg} stroke={currentWrapper.borderColor} strokeWidth="2.5" opacity="0.6" />
+                  <rect x="48" y="140" width="144" height="162" rx="14" fill="#38bdf8" opacity="0.15" />
                 </svg>
               )}
 
               {currentWrapper.type === 'basket' && (
-                <svg viewBox="0 0 240 280" className="w-full h-full">
-                  <ellipse cx="120" cy="110" rx="90" ry="25" fill={currentWrapper.backBg} stroke={currentWrapper.borderColor} strokeWidth="3" />
+                <svg viewBox="0 0 240 320" className="w-full h-full">
+                  <ellipse cx="120" cy="115" rx="98" ry="28" fill={currentWrapper.backBg} stroke={currentWrapper.borderColor} strokeWidth="3.5" />
                 </svg>
               )}
             </div>
@@ -545,7 +545,7 @@ export const BouquetStudioPage: React.FC = () => {
                   style={{
                     left: `${stem.x}%`,
                     top: `${stem.y}%`,
-                    transform: `translate(-50%, -50%) rotate(${stem.rotation}deg) scale(${stem.scale})`,
+                    transform: `translate(-50%, -22%) rotate(${stem.rotation}deg) scale(${stem.scale})`,
                     cursor: isSelected ? 'move' : 'pointer',
                   }}
                   className={`absolute transition-transform duration-100 z-20 cursor-pointer ${
@@ -554,11 +554,11 @@ export const BouquetStudioPage: React.FC = () => {
                       : 'hover:scale-105'
                   }`}
                 >
-                  <BotanicalRenderer typeId={stem.typeId} color={stem.color} size={115} />
+                  <BotanicalRenderer typeId={stem.typeId} color={stem.color} size={110} />
 
                   {/* Selection Indicator Tag */}
                   {isSelected && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-sunflower-500 text-white font-extrabold text-[9px] shadow-sm whitespace-nowrap">
+                    <div className="absolute top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-sunflower-500 text-white font-extrabold text-[9px] shadow-sm whitespace-nowrap">
                       Selected
                     </div>
                   )}
@@ -569,12 +569,12 @@ export const BouquetStudioPage: React.FC = () => {
             {/* ======================================================== */}
             {/* LAYER 3: FRONT 3D WRAPPER FLAPS & RIBBON (z-index: 30) */}
             {/* ======================================================== */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-72 sm:w-80 h-[340px] pointer-events-none z-30 flex flex-col items-center justify-end">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-80 sm:w-96 h-[400px] pointer-events-none z-30 flex flex-col items-center justify-end">
               {currentWrapper.type === 'cone' && (
-                <svg viewBox="0 0 240 280" className="w-full h-full drop-shadow-lg">
+                <svg viewBox="0 0 240 320" className="w-full h-full drop-shadow-xl">
                   {/* Left Folding Flap */}
                   <polygon
-                    points="120,270 15,80 120,150"
+                    points="120,310 10,95 120,175"
                     fill={currentWrapper.frontBg}
                     stroke={currentWrapper.borderColor}
                     strokeWidth="2"
@@ -582,71 +582,71 @@ export const BouquetStudioPage: React.FC = () => {
                   />
                   {/* Right Folding Flap (Crossing Over Left) */}
                   <polygon
-                    points="120,270 225,80 120,150"
+                    points="120,310 230,95 120,175"
                     fill={currentWrapper.frontBg}
                     stroke={currentWrapper.borderColor}
                     strokeWidth="2"
                     opacity={currentWrapper.isTranslucent ? 0.75 : 0.98}
                   />
-                  {/* Center Fold Highlights */}
-                  <line x1="120" y1="150" x2="120" y2="270" stroke={currentWrapper.borderColor} strokeWidth="1.5" opacity="0.6" />
+                  {/* Center Fold Crease */}
+                  <line x1="120" y1="175" x2="120" y2="310" stroke={currentWrapper.borderColor} strokeWidth="1.5" opacity="0.6" />
 
                   {/* Tied Ribbon Waist */}
-                  <ellipse cx="120" cy="185" rx="42" ry="14" fill={currentWrapper.ribbonColor} />
+                  <ellipse cx="120" cy="215" rx="46" ry="15" fill={currentWrapper.ribbonColor} />
                   {/* Ribbon Bow Tails */}
-                  <path d="M120 185 L90 230 L115 210 L140 230 Z" fill={currentWrapper.ribbonColor} />
-                  <circle cx="120" cy="185" r="8" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5" />
+                  <path d="M120 215 L85 270 L115 245 L150 270 Z" fill={currentWrapper.ribbonColor} />
+                  <circle cx="120" cy="215" r="9" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5" />
                 </svg>
               )}
 
               {currentWrapper.type === 'vase' && (
-                <svg viewBox="0 0 240 280" className="w-full h-full drop-shadow-md">
+                <svg viewBox="0 0 240 320" className="w-full h-full drop-shadow-md">
                   <rect
-                    x="50"
+                    x="45"
                     y="80"
-                    width="140"
-                    height="180"
-                    rx="20"
+                    width="150"
+                    height="225"
+                    rx="24"
                     fill={currentWrapper.frontBg}
                     stroke={currentWrapper.borderColor}
                     strokeWidth="3"
                     className="backdrop-blur-[1px]"
                   />
-                  <path d="M65 100 L65 240" stroke="#ffffff" strokeWidth="6" strokeLinecap="round" opacity="0.6" />
-                  <path d="M75 110 L75 220" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" opacity="0.4" />
-                  <line x1="52" y1="130" x2="188" y2="130" stroke="#38bdf8" strokeWidth="3" strokeDasharray="6,4" opacity="0.7" />
-                  <rect x="48" y="90" width="144" height="12" rx="4" fill={currentWrapper.ribbonColor} />
-                  <circle cx="120" cy="96" r="7" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5" />
+                  <path d="M60 105 L60 280" stroke="#ffffff" strokeWidth="7" strokeLinecap="round" opacity="0.6" />
+                  <path d="M72 120 L72 260" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" opacity="0.4" />
+                  <line x1="48" y1="140" x2="192" y2="140" stroke="#38bdf8" strokeWidth="3" strokeDasharray="6,4" opacity="0.7" />
+                  <rect x="43" y="90" width="154" height="14" rx="4" fill={currentWrapper.ribbonColor} />
+                  <circle cx="120" cy="97" r="7.5" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5" />
                 </svg>
               )}
 
               {currentWrapper.type === 'basket' && (
-                <svg viewBox="0 0 240 280" className="w-full h-full drop-shadow-lg">
+                <svg viewBox="0 0 240 320" className="w-full h-full drop-shadow-lg">
                   <path
-                    d="M35 110 L50 250 Q120 270 190 250 L205 110 Q120 125 35 110 Z"
+                    d="M30 115 L45 285 Q120 310 195 285 L210 115 Q120 135 30 115 Z"
                     fill={currentWrapper.frontBg}
                     stroke={currentWrapper.borderColor}
-                    strokeWidth="3"
+                    strokeWidth="3.5"
                   />
-                  {[...Array(6)].map((_, i) => (
+                  {[...Array(7)].map((_, i) => (
                     <path
                       key={i}
-                      d={`M${40 + i * 2} ${130 + i * 20} Q120 ${145 + i * 20} ${200 - i * 2} ${130 + i * 20}`}
+                      d={`M${36 + i * 2} ${138 + i * 22} Q120 ${155 + i * 22} ${204 - i * 2} ${138 + i * 22}`}
                       stroke={currentWrapper.borderColor}
-                      strokeWidth="2"
+                      strokeWidth="2.5"
                       fill="none"
                       opacity="0.6"
                     />
                   ))}
-                  <ellipse cx="120" cy="110" rx="88" ry="16" fill="none" stroke={currentWrapper.borderColor} strokeWidth="5" />
-                  <circle cx="120" cy="125" r="8" fill={currentWrapper.ribbonColor} />
-                  <path d="M120 125 L95 160 L120 145 L145 160 Z" fill={currentWrapper.ribbonColor} />
+                  <ellipse cx="120" cy="115" rx="96" ry="18" fill="none" stroke={currentWrapper.borderColor} strokeWidth="5.5" />
+                  <circle cx="120" cy="132" r="9" fill={currentWrapper.ribbonColor} />
+                  <path d="M120 132 L90 175 L120 155 L150 175 Z" fill={currentWrapper.ribbonColor} />
                 </svg>
               )}
 
               {/* Greeting Card Tag on the Ribbon */}
               {greetingTag && (
-                <div className="absolute bottom-12 px-4 py-1.5 rounded-xl bg-white/95 dark:bg-darkbg-card/95 border border-warm-300 dark:border-darkbg-border shadow-warm-md transform -rotate-6 text-center pointer-events-auto z-40">
+                <div className="absolute bottom-16 px-4 py-1.5 rounded-xl bg-white/95 dark:bg-darkbg-card/95 border border-warm-300 dark:border-darkbg-border shadow-warm-md transform -rotate-6 text-center pointer-events-auto z-40">
                   <p className="text-xs font-bold font-handwriting text-warm-900 dark:text-warm-100 truncate max-w-[180px]">
                     {greetingTag}
                   </p>
@@ -679,7 +679,7 @@ export const BouquetStudioPage: React.FC = () => {
                       : 'hover:scale-105'
                   }`}
                 >
-                  <BotanicalRenderer typeId={stem.typeId} color={stem.color} size={115} />
+                  <BotanicalRenderer typeId={stem.typeId} color={stem.color} size={110} />
 
                   {isSelected && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-sunflower-500 text-white font-extrabold text-[9px] shadow-sm whitespace-nowrap">
@@ -692,7 +692,7 @@ export const BouquetStudioPage: React.FC = () => {
 
             {/* Canvas Bottom Information */}
             <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-[11px] text-warm-500 dark:text-warm-400 font-medium pointer-events-none z-40">
-              <span>🌻 Click any flower to select and edit its details</span>
+              <span>🌻 Stems tuck deep inside the 3D wrapper cone</span>
               <span>{stems.length} items placed</span>
             </div>
           </div>
@@ -704,7 +704,7 @@ export const BouquetStudioPage: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
                   <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-sunflower-100 dark:bg-sunflower-950 border border-sunflower-300 dark:border-sunflower-800">
-                    <BotanicalRenderer typeId={selectedStem.typeId} color={selectedStem.color} size={32} />
+                    <BotanicalRenderer typeId={selectedStem.typeId} color={selectedStem.color} size={28} />
                   </div>
                   <div>
                     <h4 className="text-sm font-extrabold text-warm-900 dark:text-warm-100">
@@ -726,7 +726,7 @@ export const BouquetStudioPage: React.FC = () => {
 
               {/* Controls Grid */}
               <div className="flex items-center flex-wrap gap-2 pt-2 border-t border-warm-100 dark:border-darkbg-border">
-                {/* 1. LAYER REORDERING (Go behind / Go in front of another flower) */}
+                {/* 1. LAYER REORDERING */}
                 <div className="flex items-center gap-1 bg-warm-100 dark:bg-darkbg-surface p-1 rounded-2xl">
                   <span className="text-[10px] font-bold text-warm-500 px-1.5 flex items-center gap-1">
                     <Layers className="w-3 h-3" />
@@ -906,8 +906,8 @@ export const BouquetStudioPage: React.FC = () => {
                     onClick={() => handleAddFlower(item)}
                     className="p-3 rounded-2xl bg-warm-50 dark:bg-darkbg-surface border border-warm-200/80 dark:border-darkbg-border hover:border-sunflower-400 hover:shadow-warm-sm flex flex-col items-center text-center gap-2 group transition-all active:scale-95"
                   >
-                    <div className="w-16 h-20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <BotanicalRenderer typeId={item.id} color={item.defaultColor} size={64} />
+                    <div className="w-16 h-20 flex items-center justify-center group-hover:scale-110 transition-transform overflow-hidden">
+                      <BotanicalRenderer typeId={item.id} color={item.defaultColor} size={56} />
                     </div>
                     <span className="text-xs font-bold text-warm-800 dark:text-warm-200 truncate w-full">
                       {item.name}
@@ -998,7 +998,7 @@ export const BouquetStudioPage: React.FC = () => {
                         }`}
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
-                          <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-white dark:bg-darkbg-card border border-warm-200 shrink-0">
+                          <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-white dark:bg-darkbg-card border border-warm-200 shrink-0 overflow-hidden">
                             <BotanicalRenderer typeId={stem.typeId} color={stem.color} size={22} />
                           </div>
                           <div className="truncate">
